@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DXLES.EU | Gizli Arşiv</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background: #0a0a0a; color: #d1d1d1; font-family: 'Courier New', monospace; margin: 0; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 15px; border-bottom: 2px solid #333; position: sticky; top: 0; z-index: 100; }
+        .top-bar a { color: #ff4d4d; text-decoration: none; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .random-btn { background: #ff0000; color: white !important; padding: 8px 15px; border-radius: 4px; }
+        .container { max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #222; background: #0f0f0f; position: relative; min-height: 400px; }
+        .stamp { position: absolute; top: 20px; right: 20px; width: 120px; transform: rotate(-20deg); display: none; filter: drop-shadow(0 0 5px red); }
+        .case-header { border-left: 4px solid #ff0000; padding-left: 15px; margin-bottom: 30px; }
+        h1 { color: #fff; text-transform: uppercase; margin: 10px 0; }
+        .content { line-height: 1.8; font-size: 16px; white-space: pre-wrap; }
+        #loading { text-align: center; margin-top: 100px; color: #555; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a onclick="listeGetir()">[ DÜNYA ÜLKELERİ ]</a>
+        <a onclick="rastgeleGetir()" class="random-btn">RASTGELE GİZEM ÇIKAR</a>
+        <a onclick="alert('Bu sitedeki bilgiler açık kaynaklardan derlenmiştir.')">[ YASAL NOTLAR ]</a>
+    </div>
+
+    <div class="container" id="main-content">
+        <img src="https://i.ibb.co/m5Ym7vT/yalan-damga.png" id="stamp" class="stamp"> 
+        <div id="case-data">
+            <div id="loading">VERİTABANINA BAĞLANILIYOR...</div>
+        </div>
+    </div>
+
+    <script>
+        // SUPABASE BAĞLANTISI
+        const supabaseUrl = 'https://klwfchmvbrvnrviwfstn.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtsd2ZjaG12YnJ2bnJ2aXdmc3RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5OTMxMTksImV4cCI6MjA4MTU2OTExOX0.TIH7hzpG-eCZschmhmVZZSlK9LGFFM4hZRYgKUUQK7s';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // SAYFA AÇILDIĞINDA İLK VERİYİ GETİR
+        window.onload = rastgeleGetir;
+
+        async function rastgeleGetir() {
+            document.getElementById('case-data').innerHTML = '<div id="loading">ARŞİV TARANIYOR...</div>';
+            const { data, error } = await _supabase.from('gizli_dosyalar').select('*');
+            
+            if (data && data.length > 0) {
+                const olay = data[Math.floor(Math.random() * data.length)];
+                ekranaBas(olay);
+            }
+        }
+
+        function ekranaBas(olay) {
+            const html = `
+                <div class="case-header">
+                    <small>BÖLGE: ${olay.ulke} | ID: #${olay.id}</small>
+                    <h1>${olay.baslik}</h1>
+                </div>
+                <div class="content">
+                    <strong>ÖZET:</strong> ${olay.ozet}<br><br>
+                    <strong>DOSYA DETAYI:</strong><br>${olay.detay_icerik}
+                </div>
+            `;
+            document.getElementById('case-data').innerHTML = html;
+            document.getElementById('stamp').style.display = olay.yalan_mi ? 'block' : 'none';
+        }
+
+        async function listeGetir() {
+            const { data } = await _supabase.from('gizli_dosyalar').select('baslik, id');
+            let listHtml = '<h3>TÜM DOSYALAR</h3><ul>';
+            data.forEach(d => {
+                listHtml += `<li>${d.baslik}</li>`;
+            });
+            listHtml += '</ul>';
+            document.getElementById('case-data').innerHTML = listHtml;
+            document.getElementById('stamp').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
