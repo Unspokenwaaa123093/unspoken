@@ -977,74 +977,72 @@ function gosterDosya(dosya, clearContent = true) {
 }
 
 // Direkt bu yorum satırı veya değişkenlerle başlamalı, başında } olmamalı!
-randomBtn.addEventListener('click', async () => {
-    showLoading();
-    try {
-        const { data, error } = await supabaseClient
-            .from('gizli_dosyalar')
-            .select('*')
-            .limit(100);
+// --- BURADAN İTİBAREN SİL VE YAPIŞTIR ---
+    randomBtn.addEventListener('click', async () => {
+        showLoading();
+        try {
+            const { data, error } = await supabaseClient
+                .from('gizli_dosyalar')
+                .select('*')
+                .limit(100);
 
-        if (error) throw error;
+            if (error) throw error;
 
-        if (data && data.length > 0) {
-            const rastgele = data[Math.floor(Math.random() * data.length)];
-            gosterDosya(rastgele);
-        } else {
-            showEmpty();
+            if (data && data.length > 0) {
+                const rastgele = data[Math.floor(Math.random() * data.length)];
+                gosterDosya(rastgele);
+            } else {
+                showEmpty();
+            }
+        } catch (err) {
+            showError(err.message);
         }
- } catch (err) {
-        showError(err.message);
-    }
-}); // Burada bitiyor, altında başka parantez olmayacak
+    }); 
 
-listBtn.addEventListener('click', async () => {
-    // ... listeleme kodların ...
-      const ulke = ulkeFilter.value;
-      const platform = platformFilter.value;
-      const tur = turFilter.value;
-      const ortam = ortamFilter.value;
-      const yil = yilFilter.value;
-      
-      showLoading();
-      
-      try {
-        let query = supabaseClient
-          .from('gizli_dosyalar')
-          .select('*')
-          .order('id', { ascending: false });
+    listBtn.addEventListener('click', async () => {
+        const ulke = ulkeFilter.value;
+        const platform = platformFilter.value;
+        const tur = turFilter.value;
+        const ortam = ortamFilter.value;
+        const yil = yilFilter.value;
         
-        // Buradaki "queryu" hatalarını "query" olarak düzelttim:
-        if (ulke) query = query.eq('ulke', ulke);
-        if (platform) query = query.eq('platform', platform);
-        if (tur) query = query.eq('tur', tur);
-        if (ortam) query = query.eq('ortam', ortam);
-        if (yil) query = query.eq('yil', yil);
+        showLoading();
         
-        const { data, error } = await query;
-        
-        if (error) throw error;
-        
-        if (data && data.length > 0) {
-            content.className = 'content-grid';
-            content.innerHTML = '';
-            data.forEach(dosya => gosterDosya(dosya, false));
-        } else {
-            showEmpty(`${ulke} ${platform} ${tur}`.trim());
+        try {
+            let query = supabaseClient
+                .from('gizli_dosyalar')
+                .select('*')
+                .order('id', { ascending: false });
+            
+            if (ulke) query = query.eq('ulke', ulke);
+            if (platform) query = query.eq('platform', platform);
+            if (tur) query = query.eq('tur', tur);
+            if (ortam) query = query.eq('ortam', ortam);
+            if (yil) query = query.eq('yil', yil);
+            
+            const { data, error } = await query;
+            
+            if (error) throw error;
+            
+            if (data && data.length > 0) {
+                content.className = 'content-grid';
+                content.innerHTML = '';
+                data.forEach(dosya => gosterDosya(dosya, false));
+            } else {
+                showEmpty(`${ulke} ${platform} ${tur}`.trim());
+            }
+        } catch (err) {
+            showError(err.message);
         }
-    } catch (err) {
-        showError(err.message);
-      }
-    }); // listBtn bitti
-
-    // Filtreler değiştiğinde otomatik listeleme yapması için gereken kısım:
-    [ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(filter => {
-      filter.addEventListener('change', () => {
-        listBtn.click();
-      });
     });
 
-  })(); // En baştaki (function() { bitti
+    [ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(filter => {
+        filter.addEventListener('change', () => {
+            listBtn.click();
+        });
+    });
+
+})(); // En baştaki (function() { kısmını kapatır
 </script>
 
 </body>
