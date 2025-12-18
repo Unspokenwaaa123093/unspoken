@@ -882,20 +882,16 @@
           return false;
         }).constructor('debugger')();
       }, 50);
-      
-    })();
     
- const supabaseUrl = SUPABASE_CONFIG.url;
-const supabaseKey = SUPABASE_CONFIG.key;
+const supabaseUrl = SUPABASE_CONFIG.url;
+    const supabaseKey = SUPABASE_CONFIG.key;
 
-const { createClient } = supabase;
-const supabaseClient = createClient(supabaseUrl, supabaseKey);
+    const { createClient } = supabase;
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
-  // AŞAĞIDAKİ TÜM KODLAR (Filtreler, Butonlar, Güvenlik) AYNI KALIYOR
-  const content = document.getElementById('content');
-  const randomBtn = document.getElementById('randomBtn');
-  const listBtn = document.getElementById('listBtn');
-  // ... (Kodun geri kalanı olduğu gibi devam eder)
+    const content = document.getElementById('content');
+    const randomBtn = document.getElementById('randomBtn');
+    const listBtn = document.getElementById('listBtn');
     const ulkeFilter = document.getElementById('ulkeFilter');
     const platformFilter = document.getElementById('platformFilter');
     const turFilter = document.getElementById('turFilter');
@@ -978,7 +974,7 @@ function gosterDosya(dosya, clearContent = true) {
 
 // Direkt bu yorum satırı veya değişkenlerle başlamalı, başında } olmamalı!
 // --- BURADAN İTİBAREN SİL VE YAPIŞTIR ---
-    randomBtn.addEventListener('click', async () => {
+randomBtn.addEventListener('click', async () => {
         showLoading();
         try {
             const { data, error } = await supabaseClient
@@ -987,7 +983,6 @@ function gosterDosya(dosya, clearContent = true) {
                 .limit(100);
 
             if (error) throw error;
-
             if (data && data.length > 0) {
                 const rastgele = data[Math.floor(Math.random() * data.length)];
                 gosterDosya(rastgele);
@@ -997,31 +992,23 @@ function gosterDosya(dosya, clearContent = true) {
         } catch (err) {
             showError(err.message);
         }
-    }); 
+    });
 
     listBtn.addEventListener('click', async () => {
-        const ulke = ulkeFilter.value;
-        const platform = platformFilter.value;
-        const tur = turFilter.value;
-        const ortam = ortamFilter.value;
-        const yil = yilFilter.value;
-        
         showLoading();
-        
         try {
             let query = supabaseClient
                 .from('gizli_dosyalar')
                 .select('*')
                 .order('id', { ascending: false });
             
-            if (ulke) query = query.eq('ulke', ulke);
-            if (platform) query = query.eq('platform', platform);
-            if (tur) query = query.eq('tur', tur);
-            if (ortam) query = query.eq('ortam', ortam);
-            if (yil) query = query.eq('yil', yil);
+            if (ulkeFilter.value) query = query.eq('ulke', ulkeFilter.value);
+            if (platformFilter.value) query = query.eq('platform', platformFilter.value);
+            if (turFilter.value) query = query.eq('tur', turFilter.value);
+            if (ortamFilter.value) query = query.eq('ortam', ortamFilter.value);
+            if (yilFilter.value) query = query.eq('yil', yilFilter.value);
             
             const { data, error } = await query;
-            
             if (error) throw error;
             
             if (data && data.length > 0) {
@@ -1029,7 +1016,7 @@ function gosterDosya(dosya, clearContent = true) {
                 content.innerHTML = '';
                 data.forEach(dosya => gosterDosya(dosya, false));
             } else {
-                showEmpty(`${ulke} ${platform} ${tur}`.trim());
+                showEmpty();
             }
         } catch (err) {
             showError(err.message);
@@ -1037,12 +1024,10 @@ function gosterDosya(dosya, clearContent = true) {
     });
 
     [ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(filter => {
-        filter.addEventListener('change', () => {
-            listBtn.click();
-        });
+        filter.addEventListener('change', () => listBtn.click());
     });
 
-})(); // En baştaki (function() { kısmını kapatır
+})();
 </script>
 
 </body>
