@@ -884,14 +884,11 @@
       
     })();
     
-  /* --- SUPABASE BAĞLANTI AYARLARI --- */
-  // Görseldeki (image_88405a.png) yapıya göre düzenlendi
-  const supabaseUrl = 'https://klwfchmvbrnvriwfstn.supabase.co';
-  const supabaseKey = process.env.SUPABASE_KEY; // .env dosyasından çekilir
-  
-  // createClient fonksiyonu kütüphane içinden çağrılır
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-  /* ---------------------------------- */
+ const supabaseUrl = SUPABASE_CONFIG.url;
+const supabaseKey = SUPABASE_CONFIG.key;
+
+const { createClient } = supabase;
+const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
   // AŞAĞIDAKİ TÜM KODLAR (Filtreler, Butonlar, Güvenlik) AYNI KALIYOR
   const content = document.getElementById('content');
