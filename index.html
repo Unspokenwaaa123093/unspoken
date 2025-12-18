@@ -993,12 +993,13 @@ randomBtn.addEventListener('click', async () => {
         } else {
             showEmpty();
         }
-    } catch (err) {
+ } catch (err) {
         showError(err.message);
     }
-}); // Doğru kapatma burası
+}); // Burada bitiyor, altında başka parantez olmayacak
 
 listBtn.addEventListener('click', async () => {
+    // ... listeleme kodların ...
       const ulke = ulkeFilter.value;
       const platform = platformFilter.value;
       const tur = turFilter.value;
