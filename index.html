@@ -189,6 +189,11 @@
       height: 3px;
       background: linear-gradient(90deg, #dc2626, transparent);
     }
+
+  .dosya-card.expanded {
+      grid-column: 1 / -1;
+      max-width: 100%;
+    }
     
     .dosya-image {
       width: 100%;
@@ -196,6 +201,10 @@
       object-fit: cover;
       background: #0a0a0a;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+  .dosya-card.expanded .dosya-image {
+      height: 500px;
     }
     
     .dosya-content {
@@ -281,6 +290,10 @@
       line-height: 1.3;
       letter-spacing: -0.3px;
     }
+
+    .dosya-card.expanded .dosya-baslik {
+      font-size: 2rem;
+    }
     
     .dosya-ozet {
       font-size: 1rem;
@@ -297,6 +310,12 @@
       padding-top: 15px;
       margin-top: 15px;
     }
+
+   .dosya-card.expanded .dosya-detay {
+      max-height: 5000px;
+      opacity: 1;
+    }
+      
     
     .yalan-damga {
       position: absolute;
@@ -324,10 +343,19 @@
       }
     }
     
-    .kaynaklar-section {
+        .kaynaklar-section {
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+   .dosya-card.expanded .kaynaklar-section {
+      max-height: 1000px;
+      opacity: 1;
     }
     
     .kaynaklar-title {
@@ -339,7 +367,7 @@
       margin-bottom: 12px;
     }
     
-    .kaynak-link {
+   .kaynak-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -365,6 +393,12 @@
       font-size: 0.85rem;
       line-height: 1.8;
       margin-top: 10px;
+    }
+
+      .gazete-list a {
+      color: #60a5fa;
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(96, 165, 250, 0.3);
     }
     
     .state-container {
