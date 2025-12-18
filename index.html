@@ -1025,17 +1025,19 @@ listBtn.addEventListener('click', async () => {
         if (error) throw error;
         
         if (data && data.length > 0) {
-          content.className = 'content-grid';
-          content.innerHTML = '';
-          data.forEach(dosya => gosterDosya(dosya, false));
+            content.className = 'content-grid';
+            content.innerHTML = '';
+            data.forEach(dosya => gosterDosya(dosya, false));
         } else {
-          const filters = [ulke, platform, tur, ortam, yil].filter(Boolean).join(', ');
-          showEmpty(filters);
+            showEmpty(`${ulke} ${platform} ${tur}`.trim());
         }
-      } catch (err) {
+    } catch (err) {
         showError(err.message);
-      }
-    });
+    }
+}); // listBtn fonksiyonunun sonu
+
+// En son dosya sonu kapanışları (eğer varsa self-invoking function için)
+})();
     
     [ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(filter => {
       filter.addEventListener('change', () => {
