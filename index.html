@@ -793,7 +793,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
+  <script> src="config.js"></script>
     (function() {
       'use strict';
       
@@ -939,7 +939,7 @@ const supabaseClient = createClient(supabaseUrl, supabaseKey);
       showLoading();
       
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('gizli_dosyalar')
           .select('*')
           .limit(100);
@@ -967,7 +967,7 @@ const supabaseClient = createClient(supabaseUrl, supabaseKey);
       showLoading();
       
       try {
-        let query = supabase
+        let query = supabaseclient
           .from('gizli_dosyalar')
           .select('*')
           .order('id', { ascending: false });
