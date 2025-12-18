@@ -884,17 +884,20 @@
       
     })();
     
-    const _0x1a2b = atob('aHR0cHM6Ly9rbHdmY2htdmJydm5ydml3ZnN0bi5zdXBhYmFzZS5jbw==');
-    const _0x3c4d = atob('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW10c2QyWmphRzEyWW5KMmJuSjJhWGRtYzNSdUlpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzTmpVNU9UTXhNVGtzSW1WNGNDSTZNakE0TVRVMU9URXhPWDAuVElIN2h6cEctZUNac2NobWhtVlpaU2xLOUxHRkZNNGhaUllnS1VVUUS3cw==');
-    
-    const _$x = String.fromCharCode(115,117,112,97,98,97,115,101);
-    const _$db = window[_$x].createClient(_0x1a2b, _0x3c4d);
-    
-    const supabase = _$db;
-    
-    const content = document.getElementById('content');
-    const randomBtn = document.getElementById('randomBtn');
-    const listBtn = document.getElementById('listBtn');
+  /* --- SUPABASE BAĞLANTI AYARLARI --- */
+  // Görseldeki (image_88405a.png) yapıya göre düzenlendi
+  const supabaseUrl = 'https://klwfchmvbrnvriwfstn.supabase.co';
+  const supabaseKey = process.env.SUPABASE_KEY; // .env dosyasından çekilir
+  
+  // createClient fonksiyonu kütüphane içinden çağrılır
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  /* ---------------------------------- */
+
+  // AŞAĞIDAKİ TÜM KODLAR (Filtreler, Butonlar, Güvenlik) AYNI KALIYOR
+  const content = document.getElementById('content');
+  const randomBtn = document.getElementById('randomBtn');
+  const listBtn = document.getElementById('listBtn');
+  // ... (Kodun geri kalanı olduğu gibi devam eder)
     const ulkeFilter = document.getElementById('ulkeFilter');
     const platformFilter = document.getElementById('platformFilter');
     const turFilter = document.getElementById('turFilter');
