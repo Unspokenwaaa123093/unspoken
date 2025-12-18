@@ -976,32 +976,31 @@ function gosterDosya(dosya, clearContent = true) {
   content.appendChild(card);
 }
 
+// Eski "randomBtn.addEventListener" bloğunu tamamen silip yerine bunu yapıştır:
 randomBtn.addEventListener('click', async () => {
-  
-    randomBtn.addEventListener('click', async () => {
-      showLoading();
-      
-      try {
+    showLoading();
+    try {
         const { data, error } = await supabaseClient
-          .from('gizli_dosyalar')
-          .select('*')
-          .limit(100);
-        
+            .from('gizli_dosyalar')
+            .select('*')
+            .limit(100);
+
         if (error) throw error;
-        
+
         if (data && data.length > 0) {
-          const rastgele = data[Math.floor(Math.random() * data.length)];
-          gosterDosya(rastgele);
+            const rastgele = data[Math.floor(Math.random() * data.length)];
+            gosterDosya(rastgele);
         } else {
-          showEmpty();
+            showEmpty();
         }
-      } catch (err) {
+    } catch (err) {
         showError(err.message);
-      }
-    });
-    
-    listBtn.addEventListener('click', async () => {
-      const ulke = ulkeFilter.value;
+    }
+}); // Doğru kapatma burası
+
+listBtn.addEventListener('click', async () => {
+    const ulke = ulkeFilter.value;
+    // ... kodun devamı aynı kalabilir
       const platform = platformFilter.value;
       const tur = turFilter.value;
       const ortam = ortamFilter.value;
