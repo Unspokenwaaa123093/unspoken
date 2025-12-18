@@ -968,7 +968,7 @@ const supabaseClient = createClient(supabaseUrl, supabaseKey);
       showLoading();
       
       try {
-        let query = supabaseclient
+        let query = supabaseClient
           .from('gizli_dosyalar')
           .select('*')
           .order('id', { ascending: false });
