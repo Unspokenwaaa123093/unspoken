@@ -935,7 +935,49 @@ const supabaseClient = createClient(supabaseUrl, supabaseKey);
         </div>
       `;
     }
-    
+
+function gosterDosya(dosya, clearContent = true) {
+  if (clearContent) {
+    content.className = 'content-grid';
+    content.innerHTML = '';
+  }
+  
+  const card = document.createElement('div');
+  card.className = `dosya-card ${dosya.gerceklik === 'Yalan' ? 'yalan' : ''}`;
+  
+  card.innerHTML = `
+    ${dosya.gerceklik === 'Yalan' ? '<img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'%3E%3Ctext x=\'100\' y=\'100\' text-anchor=\'middle\' font-size=\'60\' fill=\'%23dc2626\' font-weight=\'bold\' transform=\'rotate(-15 100 100)\'%3EYALAN%3C/text%3E%3C/svg%3E" class="yalan-damga" alt="YALAN">' : ''}
+    <img src="${dosya.gorsel_url || 'https://via.placeholder.com/500x300?text=Görsel+Yok'}" class="dosya-image" alt="${dosya.baslik}">
+    <div class="dosya-content">
+      <div class="dosya-header">
+        <div class="dosya-meta">
+          ${dosya.ulke ? `<span class="badge badge-ulke">${dosya.ulke}</span>` : ''}
+          ${dosya.tarih ? `<span class="badge badge-tarih">${dosya.tarih}</span>` : ''}
+          ${dosya.platform ? `<span class="badge badge-platform">${dosya.platform}</span>` : ''}
+          ${dosya.tur ? `<span class="badge badge-tur">${dosya.tur}</span>` : ''}
+          ${dosya.ortam ? `<span class="badge badge-ortam">${dosya.ortam}</span>` : ''}
+          ${dosya.yil ? `<span class="badge badge-yil">${dosya.yil}</span>` : ''}
+          ${dosya.gerceklik ? `<span class="badge ${dosya.gerceklik === 'Yalan' ? 'badge-yalan' : 'badge-dogru'}">${dosya.gerceklik}</span>` : ''}
+        </div>
+        <h2 class="dosya-baslik">${dosya.baslik}</h2>
+        ${dosya.ozet ? `<p class="dosya-ozet">${dosya.ozet}</p>` : ''}
+      </div>
+      ${dosya.detay ? `<div class="dosya-detay">${dosya.detay}</div>` : ''}
+      ${dosya.kaynaklar || dosya.gazete_listesi ? `
+        <div class="kaynaklar-section">
+          <div class="kaynaklar-title">Kaynaklar</div>
+          ${dosya.kaynaklar ? `<a href="${dosya.kaynaklar}" target="_blank" class="kaynak-link">🔗 Belge</a>` : ''}
+          ${dosya.gazete_listesi ? `<div class="gazete-list">${dosya.gazete_listesi}</div>` : ''}
+        </div>
+      ` : ''}
+    </div>
+  `;
+  
+  content.appendChild(card);
+}
+
+randomBtn.addEventListener('click', async () => {
+  
     randomBtn.addEventListener('click', async () => {
       showLoading();
       
