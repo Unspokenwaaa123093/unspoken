@@ -974,7 +974,8 @@ function gosterDosya(dosya, clearContent = true) {
 
 // Direkt bu yorum satırı veya değişkenlerle başlamalı, başında } olmamalı!
 // --- BURADAN İTİBAREN SİL VE YAPIŞTIR ---
-randomBtn.addEventListener('click', async () => {
+// 1. Rastgele Butonu
+    randomBtn.addEventListener('click', async () => {
         showLoading();
         try {
             const { data, error } = await supabaseClient
@@ -983,6 +984,7 @@ randomBtn.addEventListener('click', async () => {
                 .limit(100);
 
             if (error) throw error;
+
             if (data && data.length > 0) {
                 const rastgele = data[Math.floor(Math.random() * data.length)];
                 gosterDosya(rastgele);
@@ -992,8 +994,9 @@ randomBtn.addEventListener('click', async () => {
         } catch (err) {
             showError(err.message);
         }
-    });
+    }); // randomBtn bitti
 
+    // 2. Listele Butonu
     listBtn.addEventListener('click', async () => {
         showLoading();
         try {
@@ -1021,14 +1024,16 @@ randomBtn.addEventListener('click', async () => {
         } catch (err) {
             showError(err.message);
         }
-    });
+    }); // listBtn bitti
 
+    // 3. Otomatik Filtreleme
     [ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(filter => {
-        filter.addEventListener('change', () => listBtn.click());
+        filter.addEventListener('change', () => {
+            listBtn.click();
+        });
     });
 
-})();
+})(); // En baştaki (function() { açılışını kapatan TEK yer.
 </script>
-
 </body>
 </html>
