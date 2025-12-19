@@ -422,8 +422,25 @@
       
       .modal-content {
         padding: 25px;
-      }
+
+@media (max-width: 768px) {
+    .header-top { 
+        flex-direction: column; 
+        gap: 15px; 
     }
+    .header-nav { 
+        display: flex; 
+        overflow-x: auto; 
+        gap: 10px; 
+        padding: 10px 0;
+        scrollbar-width: none; 
+    }
+    .header-nav::-webkit-scrollbar { display: none; }
+    .content-grid { 
+        grid-template-columns: 1fr !important; 
+    }
+}
+        
   </style>
 </head>
 <body>
@@ -434,11 +451,15 @@
           <div class="logo-icon">dx</div>
           <div class="site-title">Gizli Dosyalar Arşivi</div>
         </div>
-        <div class="header-actions">
-          <button id="randomBtn" class="primary">Rastgele Dosya</button>
-        </div>
-      </div>
-      
+    <div class="header-actions" style="display: flex; align-items: center; gap: 15px;">
+    <div class="lang-switcher" style="display: flex; gap: 8px;">
+        <button class="lang-btn active" onclick="setLanguage('tr')" style="padding: 5px 10px; cursor: pointer; min-width: auto;">TR</button>
+        <button class="lang-btn" onclick="setLanguage('de')" style="padding: 5px 10px; cursor: pointer; min-width: auto;">DE</button>
+    </div>
+    
+    <button id="randomBtn" class="primary">Rastgele Dosya</button>
+</div>
+          
       <nav class="header-nav">
         <div class="filter-group">
           <span class="filter-label">Bölge</span>
@@ -657,6 +678,21 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script>
+    let currentLang = 'tr';
+const translations = {
+    tr: {
+        title: "Gizli Dosyalar Arşivi",
+        random: "Rastgele Dosya",
+        notFound: "Dosya bulunamadı.",
+        viewFull: "TAM BELGEYİ GÖR"
+    },
+    de: {
+        title: "Geheimarchiv",
+        random: "Zufällige Datei",
+        notFound: "Keine Dokumente gefunden.",
+        viewFull: "VOLLSTÄNDIGES DOKUMENT"
+    }
+};
     const { createClient } = supabase;
     const supabaseClient = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key);
 
@@ -833,11 +869,28 @@
       };
       
       setInterval(devtoolsChecker, 1000);
-      
+
+    function setLanguage(lang) {
+    currentLang = lang;
     
+    // Aktif buton rengini değiştir
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.innerText === lang.toUpperCase()) btn.classList.add('active');
+    });
+
+    // Sayfadaki metinleri güncelle
+    document.querySelector('.site-title').innerText = translations[lang].title;
+    document.getElementById('randomBtn').innerText = translations[lang].random;
+    
+    // Listeyi yeniden yükle
+    arsiviYukle();
+}
+  
   </script>
 </body>
 </html>
+
 
 
 
