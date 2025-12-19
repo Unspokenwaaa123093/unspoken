@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -10,14 +11,14 @@
       padding: 0;
       box-sizing: border-box;
     }
-
+    
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       background: #0d0d0d;
       color: #e0e0e0;
       line-height: 1.6;
     }
-
+    
     .header {
       background: rgba(0, 0, 0, 0.95);
       backdrop-filter: blur(10px);
@@ -26,13 +27,13 @@
       top: 0;
       z-index: 1000;
     }
-
+    
     .header-container {
       max-width: 1600px;
       margin: 0 auto;
       padding: 0 40px;
     }
-
+    
     .header-top {
       display: flex;
       justify-content: space-between;
@@ -40,13 +41,13 @@
       padding: 20px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
-
+    
     .site-logo {
       display: flex;
       align-items: center;
       gap: 15px;
     }
-
+    
     .logo-icon {
       width: 40px;
       height: 40px;
@@ -59,19 +60,19 @@
       color: #fff;
       border-radius: 4px;
     }
-
+    
     .site-title {
       font-size: 1.5rem;
       font-weight: 600;
       color: #fff;
       letter-spacing: -0.5px;
     }
-
+    
     .header-actions {
       display: flex;
       gap: 15px;
     }
-
+    
     .header-nav {
       display: flex;
       gap: 20px;
@@ -79,13 +80,13 @@
       overflow-x: auto;
       flex-wrap: wrap;
     }
-
+    
     .filter-group {
       display: flex;
       gap: 10px;
       align-items: center;
     }
-
+    
     .filter-label {
       color: #888;
       font-size: 0.9rem;
@@ -94,7 +95,7 @@
       font-weight: 500;
       white-space: nowrap;
     }
-
+    
     select {
       padding: 8px 35px 8px 15px;
       background: #1a1a1a;
@@ -110,17 +111,17 @@
       background-position: right 12px center;
       min-width: 150px;
     }
-
+    
     select:hover {
       border-color: rgba(255, 255, 255, 0.2);
       background-color: #222;
     }
-
+    
     select:focus {
       outline: none;
       border-color: rgba(255, 255, 255, 0.3);
     }
-
+    
     button {
       padding: 8px 20px;
       background: #1a1a1a;
@@ -133,34 +134,34 @@
       font-weight: 500;
       white-space: nowrap;
     }
-
+    
     button:hover {
       background: #252525;
       border-color: rgba(255, 255, 255, 0.2);
       transform: translateY(-1px);
     }
-
+    
     button:active {
       transform: translateY(0);
     }
-
+    
     button.primary {
       background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
       border-color: rgba(255, 255, 255, 0.15);
     }
-
+    
     .main-container {
       max-width: 1600px;
       margin: 0 auto;
       padding: 40px;
     }
-
+    
     .content-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
       gap: 30px;
     }
-
+    
     .dosya-card {
       background: rgba(20, 20, 20, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -168,18 +169,19 @@
       overflow: hidden;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
+      cursor: pointer;
     }
-
+    
     .dosya-card:hover {
       border-color: rgba(255, 255, 255, 0.15);
       transform: translateY(-4px);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     }
-
+    
     .dosya-card.yalan {
       border-left: 3px solid #dc2626;
     }
-
+    
     .dosya-card.yalan::before {
       content: '';
       position: absolute;
@@ -189,12 +191,7 @@
       height: 3px;
       background: linear-gradient(90deg, #dc2626, transparent);
     }
-
-  .dosya-card.expanded {
-      grid-column: 1 / -1;
-      max-width: 100%;
-    }
-
+    
     .dosya-image {
       width: 100%;
       height: 300px;
@@ -202,26 +199,22 @@
       background: #0a0a0a;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-
-  .dosya-card.expanded .dosya-image {
-      height: 500px;
-    }
-
+    
     .dosya-content {
       padding: 25px;
     }
-
+    
     .dosya-header {
       margin-bottom: 20px;
     }
-
+    
     .dosya-meta {
       display: flex;
       gap: 10px;
       margin-bottom: 15px;
       flex-wrap: wrap;
     }
-
+    
     .badge {
       padding: 5px 12px;
       border-radius: 4px;
@@ -231,57 +224,57 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-
+    
     .badge-ulke {
       background: rgba(255, 255, 255, 0.05);
       color: #aaa;
       border-color: rgba(255, 255, 255, 0.1);
     }
-
+    
     .badge-tarih {
       background: rgba(59, 130, 246, 0.1);
       color: #60a5fa;
       border-color: rgba(59, 130, 246, 0.2);
     }
-
+    
     .badge-platform {
       background: rgba(139, 92, 246, 0.1);
       color: #a78bfa;
       border-color: rgba(139, 92, 246, 0.2);
     }
-
+    
     .badge-tur {
       background: rgba(234, 179, 8, 0.1);
       color: #fbbf24;
       border-color: rgba(234, 179, 8, 0.2);
     }
-
+    
     .badge-ortam {
       background: rgba(16, 185, 129, 0.1);
       color: #34d399;
       border-color: rgba(16, 185, 129, 0.2);
     }
-
+    
     .badge-yil {
       background: rgba(239, 68, 68, 0.1);
       color: #f87171;
       border-color: rgba(239, 68, 68, 0.2);
     }
-
+    
     .badge-yalan {
       background: rgba(220, 38, 38, 0.15);
       color: #ef4444;
       border-color: rgba(220, 38, 38, 0.3);
       font-weight: 600;
     }
-
+    
     .badge-dogru {
       background: rgba(34, 197, 94, 0.1);
       color: #4ade80;
       border-color: rgba(34, 197, 94, 0.2);
       font-weight: 600;
     }
-
+    
     .dosya-baslik {
       font-size: 1.4rem;
       font-weight: 600;
@@ -290,18 +283,14 @@
       line-height: 1.3;
       letter-spacing: -0.3px;
     }
-
-    .dosya-card.expanded .dosya-baslik {
-      font-size: 2rem;
-    }
-
+    
     .dosya-ozet {
       font-size: 1rem;
       color: #bbb;
       margin-bottom: 15px;
       line-height: 1.6;
     }
-
+    
     .dosya-detay {
       color: #888;
       line-height: 1.8;
@@ -310,13 +299,7 @@
       padding-top: 15px;
       margin-top: 15px;
     }
-
-   .dosya-card.expanded .dosya-detay {
-      max-height: 5000px;
-      opacity: 1;
-    }
-      
-
+    
     .yalan-damga {
       position: absolute;
       top: 20px;
@@ -328,7 +311,7 @@
       filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
       animation: yalanDamga 0.5s ease-out;
     }
-
+    
     @keyframes yalanDamga {
       0% { 
         transform: scale(0) rotate(-180deg);
@@ -342,22 +325,13 @@
         opacity: 0.9;
       }
     }
-
-        .kaynaklar-section {
+    
+    .kaynaklar-section {
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: all 0.3s;
     }
-
-   .dosya-card.expanded .kaynaklar-section {
-      max-height: 1000px;
-      opacity: 1;
-    }
-
+    
     .kaynaklar-title {
       font-size: 0.9rem;
       font-weight: 600;
@@ -366,8 +340,8 @@
       letter-spacing: 1px;
       margin-bottom: 12px;
     }
-
-   .kaynak-link {
+    
+    .kaynak-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -381,26 +355,20 @@
       margin: 5px 5px 5px 0;
       transition: all 0.3s;
     }
-
+    
     .kaynak-link:hover {
       background: rgba(59, 130, 246, 0.2);
       border-color: rgba(59, 130, 246, 0.4);
       transform: translateY(-2px);
     }
-
+    
     .gazete-list {
       color: #999;
       font-size: 0.85rem;
       line-height: 1.8;
       margin-top: 10px;
     }
-
-      .gazete-list a {
-      color: #60a5fa;
-      text-decoration: none;
-      border-bottom: 1px dotted rgba(96, 165, 250, 0.3);
-    }
-
+    
     .state-container {
       display: flex;
       align-items: center;
@@ -408,7 +376,7 @@
       min-height: 400px;
       text-align: center;
     }
-
+    
     .state-box {
       max-width: 500px;
       padding: 40px;
@@ -416,46 +384,130 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 8px;
     }
-
+    
     .state-icon {
       font-size: 3rem;
       margin-bottom: 20px;
       opacity: 0.5;
     }
-
+    
     .state-title {
       font-size: 1.3rem;
       font-weight: 600;
       color: #fff;
       margin-bottom: 10px;
     }
-
+    
     .state-message {
       color: #888;
       font-size: 0.95rem;
     }
-
+    
     .error .state-box {
       border-color: rgba(220, 38, 38, 0.3);
       background: rgba(220, 38, 38, 0.05);
     }
-
+    
     .error .state-title {
       color: #ef4444;
     }
 
+    /* Modal Stilleri */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 10000;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1.5rem;
+      color: #fff;
+      z-index: 10;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    .modal-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .modal-body {
+      padding: 40px;
+    }
+    
     .footer {
       background: rgba(0, 0, 0, 0.95);
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding: 60px 40px 40px;
       margin-top: 80px;
     }
-
+    
     .footer-container {
       max-width: 1600px;
       margin: 0 auto;
     }
-
+    
     .footer-title {
       font-size: 1.1rem;
       font-weight: 600;
@@ -464,44 +516,44 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-
+    
     .footer-content {
       color: #888;
       line-height: 1.9;
       font-size: 0.9rem;
       max-width: 900px;
     }
-
+    
     .footer-content p {
       margin-bottom: 18px;
     }
-
+    
     .footer-content strong {
       color: #bbb;
       font-weight: 600;
     }
-
+    
     .footer-content a {
       color: #60a5fa;
       text-decoration: none;
       border-bottom: 1px solid rgba(96, 165, 250, 0.3);
       transition: all 0.3s;
     }
-
+    
     .footer-content a:hover {
       color: #93c5fd;
       border-bottom-color: rgba(147, 197, 253, 0.5);
     }
-
+    
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.5; }
     }
-
+    
     .loading .state-icon {
       animation: pulse 2s ease-in-out infinite;
     }
-
+    
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -512,69 +564,73 @@
         transform: translateY(0);
       }
     }
-
+    
     .dosya-card {
       animation: fadeInUp 0.5s ease;
     }
-
+    
     @media (max-width: 1200px) {
       .content-grid {
         grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
       }
     }
-
+    
     @media (max-width: 768px) {
       .main-container {
         padding: 20px;
       }
-
+      
       .header-container {
         padding: 0 20px;
       }
-
+      
       .header-top {
         flex-direction: column;
         gap: 20px;
         align-items: flex-start;
       }
-
+      
       .header-actions {
         width: 100%;
         flex-direction: column;
       }
-
+      
       .header-actions button {
         width: 100%;
       }
-
+      
       .header-nav {
         flex-direction: column;
       }
-
+      
       .filter-group {
         width: 100%;
         flex-direction: column;
         align-items: flex-start;
       }
-
+      
       .filter-group select {
         width: 100%;
       }
-
+      
       .content-grid {
         grid-template-columns: 1fr;
       }
-
+      
       .dosya-image {
         height: 200px;
       }
-
+      
       .dosya-content {
         padding: 20px;
       }
-
+      
       .dosya-baslik {
         font-size: 1.2rem;
+      }
+
+      .modal-body {
+        padding: 30px 20px;
       }
     }
   </style>
@@ -589,10 +645,9 @@
         </div>
         <div class="header-actions">
           <button id="randomBtn" class="primary">Rastgele Dosya</button>
-          <button id="listBtn">Tüm Dosyalar</button>
         </div>
       </div>
-
+      
       <nav class="header-nav">
         <div class="filter-group">
           <span class="filter-label">Bölge</span>
@@ -750,16 +805,6 @@
             <option value="FSB">FSB</option>
             <option value="MİT">MİT</option>
             <option value="Diğer">Diğer</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <span class="filter-label">Ortam</span>
-          <select id="ortamFilter">
-            <option value="">Tüm Ortamlar</option>
-            <option value="Sanal Dünya">Sanal Dünya</option>
-            <option value="Gerçek Dünya">Gerçek Dünya</option>
-            <option value="Her İkisi">Her İkisi</option>
           </select>
         </div>
 
@@ -1070,4 +1115,5 @@ function gosterDosya(dosya, clearContent = true) {
 })(); // En baştaki (function() { açılışını kapatan TEK yer.
 </script>
 </body>
+
 </html>
