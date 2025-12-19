@@ -594,110 +594,104 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
-    // 1. Supabase Kurulumu (Senin config.js dosyanı kullanır) [cite: 98, 99]
-    const { createClient } = supabase;
-    const supabaseClient = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key); [cite: 99]
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key);
 
-    // 2. Elementleri Tanımla (Senin HTML ID'lerinle birebir uyumlu) [cite: 99, 100, 101]
-    const content = document.getElementById('belge-listesi'); [cite: 99]
-    const modal = document.getElementById('modal-ekran'); [cite: 99]
-    const modalDetay = document.getElementById('modal-detay'); [cite: 100]
-    const kapatBtn = document.querySelector('.kapat-buton'); [cite: 100]
+const content = document.getElementById('belge-listesi');
+const randomBtn = document.getElementById('randomBtn');
+const listBtn = document.getElementById('listBtn');
+const ulkeFilter = document.getElementById('ulkeFilter');
+const platformFilter = document.getElementById('platformFilter');
+const turFilter = document.getElementById('turFilter');
+const ortamFilter = document.getElementById('ortamFilter');
+const yilFilter = document.getElementById('yilFilter');
+
+function showLoading() {
+  content.innerHTML = '<div style="text-align:center;padding:100px;">Yükleniyor...</div>';
+}
+
+function showError(msg) {
+  content.innerHTML = `<div style="text-align:center;padding:100px;color:red;">HATA: ${msg}</div>`;
+}
+
+function showEmpty() {
+  content.innerHTML = '<div style="text-align:center;padding:100px;">Dosya bulunamadı.</div>';
+}
+
+function gosterDosya(dosya, clearContent = true) {
+  if (clearContent) content.innerHTML = '';
+  
+  const card = document.createElement('div');
+  card.className = 'dosya-card';
+  card.innerHTML = `
+    <div class="dosya-image-container">
+      <img src="${dosya.belge_url}" class="dosya-image">
+    </div>
+    <div class="dosya-content">
+      <div class="dosya-header">
+        <span class="badge badge-tur">${dosya.tur}</span>
+        <span class="badge badge-ulke">${dosya.ulke}</span>
+      </div>
+      <h3 class="dosya-title">${dosya.baslik}</h3>
+      <p class="dosya-excerpt">${dosya.ozet}</p>
+    </div>
+  `;
+  
+  card.onclick = () => {
+    alert('Detay: ' + dosya.detay);
+  };
+  
+  content.appendChild(card);
+}
+
+randomBtn.addEventListener('click', async () => {
+  showLoading();
+  try {
+    const { data, error } = await supabaseClient.from('gizli_dosyalar').select('*').limit(50);
+    if (error) throw error;
+    if (data && data.length > 0) {
+      const random = data[Math.floor(Math.random() * data.length)];
+      gosterDosya(random);
+    } else {
+      showEmpty();
+    }
+  } catch (err) {
+    showError(err.message);
+  }
+});
+
+listBtn.addEventListener('click', async () => {
+  showLoading();
+  try {
+    let query = supabaseClient.from('gizli_dosyalar').select('*').order('id', { ascending: false });
     
-    const ulkeFilter = document.getElementById('ulkeFilter'); [cite: 100]
-    const platformFilter = document.getElementById('platformFilter'); [cite: 101]
-    const turFilter = document.getElementById('turFilter'); [cite: 101]
-    const yilFilter = document.getElementById('yilFilter'); [cite: 101]
-
-    // 3. Dosyayı Modal İçinde Göster (Siyah alan ve DB linkleri entegre edildi) [cite: 102, 103, 105]
-    function gosterDosya(dosya) {
-        modalDetay.innerHTML = `
-            <div class="modal-gorsel-container" style="background:#000; display:flex; justify-content:center; align-items:center; min-height:400px; position:relative;">
-                <img src="${dosya.belge_url}" class="modal-image" style="max-width:100%; max-height:600px; object-fit:contain;">
-                ${dosya.yalan_mi ? '<div class="modal-yalan-damga" style="position:absolute; color:red; border:8px solid red; padding:15px; font-weight:bold; transform:rotate(-15deg); font-size:3rem; opacity:0.6; pointer-events:none;">KESİN YALAN</div>' : ''}
-            </div>
-            <div class="modal-body" style="padding:40px;">
-                <div class="modal-meta-badges">
-                    <span class="badge badge-ulke">${dosya.ulke}</span>
-                    <span class="badge badge-tur">${dosya.tur}</span>
-                    <span class="badge badge-yil">${dosya.yil}</span>
-                </div>
-                <h1 class="modal-baslik" style="color:#fff; font-size:2.5rem; margin-bottom:20px;">${dosya.baslik}</h1>
-                <p class="modal-detay-text" style="color:#ccc; line-height:1.8; white-space:pre-wrap;">${dosya.detay}</p>
-                <div class="modal-footer-links" style="margin-top:30px; display:flex; gap:20px;">
-                    <a href="${dosya.belge_url}" target="_blank" class="modal-belge-link" style="background:#fff; color:#000; padding:12px 25px; text-decoration:none; font-weight:bold; border-radius:5px;">📄 TAM BELGEYİ GÖR</a>
-                    <a href="${dosya.kaynak_link}" target="_blank" class="modal-kaynak-link" style="color:#60a5fa; text-decoration:none; align-self:center;">🔗 Orijinal Kaynağa Git →</a>
-                </div>
-            </div>
-        `; [cite: 102, 103, 104, 105]
-        modal.classList.add('active'); [cite: 106]
-        document.body.style.overflow = 'hidden'; [cite: 106]
+    if (ulkeFilter.value) query = query.eq('ulke', ulkeFilter.value);
+    if (platformFilter.value) query = query.eq('platform', platformFilter.value);
+    if (turFilter.value) query = query.eq('tur', turFilter.value);
+    if (ortamFilter.value) query = query.eq('ortam', ortamFilter.value);
+    if (yilFilter.value) query = query.eq('yil', yilFilter.value);
+    
+    const { data, error } = await query;
+    if (error) throw error;
+    
+    if (data && data.length > 0) {
+      content.innerHTML = '';
+      data.forEach(dosya => gosterDosya(dosya, false));
+    } else {
+      showEmpty();
     }
+  } catch (err) {
+    showError(err.message);
+  }
+});
 
-    // 4. Verileri Supabase'den Çek ve Listele [cite: 106, 107, 108]
-    async function arsiviYukle() {
-        try {
-            let query = supabaseClient.from('gizli_dosyalar').select('*').order('id', { ascending: false }); [cite: 106, 107]
+[ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(f => {
+  f.addEventListener('change', () => listBtn.click());
+});
 
-            // Filtre kontrolleri [cite: 107, 108]
-            if (ulkeFilter.value) query = query.eq('ulke', ulkeFilter.value); [cite: 107]
-            if (platformFilter.value) query = query.eq('platform', platformFilter.value); [cite: 108]
-            if (turFilter.value) query = query.eq('tur', turFilter.value); [cite: 108]
-            if (yilFilter.value) query = query.eq('yil', yilFilter.value); [cite: 108]
-
-            const { data, error } = await query; [cite: 109]
-            if (error) throw error; [cite: 109]
-
-            content.innerHTML = ''; [cite: 109]
-            if (data && data.length > 0) { [cite: 110]
-                data.forEach(dosya => {
-                    const card = document.createElement('div');
-                    card.className = `dosya-card ${dosya.yalan_mi ? 'yalan' : ''}`;
-                    card.onclick = () => gosterDosya(dosya); [cite: 110]
-                    card.innerHTML = `
-                        <img src="${dosya.belge_url}" class="dosya-image">
-                        <div class="dosya-content">
-                            <div class="dosya-meta">
-                                <span class="badge badge-ulke">${dosya.ulke}</span>
-                                <span class="badge badge-tur">${dosya.tur}</span>
-                            </div>
-                            <h3 class="dosya-baslik">${dosya.baslik}</h3>
-                            <p class="dosya-ozet">${dosya.ozet}</p>
-                        </div>
-                    `; [cite: 111, 112, 113]
-                    content.appendChild(card); [cite: 114]
-                });
-            } else {
-                content.innerHTML = '<div class="state-message">Aranan kriterlere uygun dosya bulunamadı.</div>'; [cite: 115]
-            }
-        } catch (err) {
-            console.error("Hata:", err.message); [cite: 116]
-        }
-    }
-
-    // 5. Olay İzleyiciler (Event Listeners) [cite: 117, 119, 120]
-    kapatBtn.onclick = () => { [cite: 117]
-        modal.classList.remove('active'); [cite: 117]
-        document.body.style.overflow = 'auto'; [cite: 118]
-    };
-
-    window.onclick = (e) => { if (e.target == modal) kapatBtn.onclick(); }; [cite: 118]
-
-    [ulkeFilter, platformFilter, turFilter, yilFilter].forEach(filter => {
-        filter.addEventListener('change', arsiviYukle); [cite: 119]
-    });
-
-    document.getElementById('randomBtn').addEventListener('click', async () => {
-        const { data } = await supabaseClient.from('gizli_dosyalar').select('*'); [cite: 120]
-        if (data) gosterDosya(data[Math.floor(Math.random() * data.length)]); [cite: 120]
-    });
-
-    document.getElementById('listBtn').addEventListener('click', arsiviYukle); [cite: 121]
-
-    // Otomatik Başlatma [cite: 122, 123]
-    window.onload = arsiviYukle; 
-    document.addEventListener('contextmenu', e => e.preventDefault()); [cite: 123]
+window.onload = () => listBtn.click();
 </script>
 </body>
 
 </html>
+
