@@ -184,6 +184,10 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
     
+    .dosya-card.yalan {
+      border-left: 3px solid #dc2626;
+    }
+    
     .dosya-image-container {
       position: relative;
       padding-top: 56.25%;
@@ -203,6 +207,17 @@
     
     .dosya-card:hover .dosya-image {
       transform: scale(1.05);
+    }
+    
+    .yalan-damga {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 80px;
+      height: 80px;
+      opacity: 0.9;
+      z-index: 10;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
     }
     
     .dosya-content {
@@ -228,6 +243,7 @@
     
     .badge-tur { border-color: #ff4500; color: #ff4500; }
     .badge-ulke { border-color: #444; color: #aaa; }
+    .badge-yalan { background: rgba(220, 38, 38, 0.15); color: #ef4444; border-color: rgba(220, 38, 38, 0.3); }
     
     .dosya-title {
       font-size: 1.25rem;
@@ -246,7 +262,7 @@
       overflow: hidden;
     }
     
-    /* MODAL TASARIMI */
+    /* MODAL POPUP */
     .modal {
       display: none;
       position: fixed;
@@ -261,6 +277,10 @@
       backdrop-filter: blur(10px);
     }
     
+    .modal.active {
+      display: block;
+    }
+    
     .modal-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -271,23 +291,37 @@
       position: relative;
     }
     
-    /* GÜNCELLEDİĞİM SİYAH ALAN KISMI */
     .modal-gorsel-alani {
-        background: #000;
-        min-height: 400px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-bottom: 1px solid #222;
-        position: relative;
+      background: #000;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #222;
+      position: relative;
     }
     
     .modal-gorsel-alani img {
-        max-width: 100%;
-        max-height: 600px;
-        object-fit: contain;
+      max-width: 100%;
+      max-height: 600px;
+      object-fit: contain;
     }
-
+    
+    .modal-yalan-damga {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: #dc2626;
+      border: 8px solid #dc2626;
+      padding: 20px 30px;
+      font-weight: bold;
+      transform: rotate(-15deg);
+      font-size: 3rem;
+      opacity: 0.7;
+      pointer-events: none;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+    }
+    
     .modal-close {
       position: absolute;
       top: 20px;
@@ -319,6 +353,7 @@
       display: flex;
       gap: 15px;
       margin-bottom: 25px;
+      flex-wrap: wrap;
     }
     
     .modal-title {
@@ -334,6 +369,60 @@
       color: #ccc;
       line-height: 1.8;
       white-space: pre-wrap;
+      margin-bottom: 30px;
+    }
+    
+    .modal-footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .modal-belge-link {
+      background: #fff;
+      color: #000;
+      padding: 12px 25px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+    
+    .modal-belge-link:hover {
+      background: #ececec;
+      transform: translateY(-2px);
+    }
+    
+    .modal-kaynak-link {
+      color: #60a5fa;
+      text-decoration: none;
+      align-self: center;
+      transition: all 0.3s;
+    }
+    
+    .modal-kaynak-link:hover {
+      color: #93c5fd;
+    }
+    
+    .state-message {
+      text-align: center;
+      padding: 100px 20px;
+      color: #888;
+      font-size: 1.2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .modal-title {
+        font-size: 1.8rem;
+      }
+      
+      .modal-content {
+        padding: 25px;
+      }
     }
   </style>
 </head>
@@ -346,104 +435,34 @@
           <div class="site-title">Gizli Dosyalar Arşivi</div>
         </div>
         <div class="header-actions">
-          <button id="listBtn">Listele</button>
           <button id="randomBtn" class="primary">Rastgele Dosya</button>
         </div>
       </div>
-      
       
       <nav class="header-nav">
         <div class="filter-group">
           <span class="filter-label">Bölge</span>
           <select id="ulkeFilter">
             <option value="">Tüm Bölgeler</option>
-            <optgroup label="Avrupa">
-              <option value="Almanya">Almanya</option>
-              <option value="Fransa">Fransa</option>
-              <option value="İngiltere">İngiltere</option>
-              <option value="İrlanda">İrlanda</option>
-              <option value="İtalya">İtalya</option>
-              <option value="İspanya">İspanya</option>
-            </optgroup>
-            <optgroup label="Asya">
-              <option value="Türkiye">Türkiye</option>
-              <option value="Bulgaristan">Bulgaristan</option>
-              <option value="Yunanistan">Yunanistan</option>
-            </optgroup>
-            <optgroup label="Amerika">
-              <option value="ABD">Birleşik Devletler</option>
-            </optgroup>
-            <optgroup label="Afrika">
-              <option value="Afrika">Afrika Kıtası</option>
-            </optgroup>
-            <optgroup label="Orta Doğu">
-              <option value="Suudi Arabistan">Suudi Arabistan</option>
-              <option value="İsrail">İsrail</option>
-              <option value="Filistin">Filistin</option>
-            </optgroup>
-            <optgroup label="Sovyet">
-              <option value="SSCB">SSCB</option>
-            </optgroup>
+            <option value="ABD">ABD</option>
+            <option value="Türkiye">Türkiye</option>
+            <option value="İtalya">İtalya</option>
+            <option value="Suudi Arabistan">Suudi Arabistan</option>
+            <option value="İsrail">İsrail</option>
+            <option value="SSCB">SSCB</option>
+            <option value="Japonya">Japonya</option>
           </select>
         </div>
 
         <div class="filter-group">
-          <span class="filter-label">Platform/Grup</span>
+          <span class="filter-label">Platform</span>
           <select id="platformFilter">
             <option value="">Tüm Platformlar</option>
-            <optgroup label="Sosyal Medya">
-              <option value="Discord">Discord</option>
-              <option value="Twitter/X">Twitter/X</option>
-              <option value="Facebook">Facebook</option>
-              <option value="Reddit">Reddit</option>
-              <option value="4chan">4chan</option>
-              <option value="8chan">8chan</option>
-              <option value="Telegram">Telegram</option>
-              <option value="WhatsApp">WhatsApp</option>
-              <option value="Instagram">Instagram</option>
-              <option value="TikTok">TikTok</option>
-              <option value="Snapchat">Snapchat</option>
-            </optgroup>
-            <optgroup label="Hack Grupları">
-              <option value="Anonymous">Anonymous</option>
-              <option value="LulzSec">LulzSec</option>
-              <option value="Lizard Squad">Lizard Squad</option>
-              <option value="APT28 (Fancy Bear)">APT28 (Fancy Bear)</option>
-              <option value="APT29 (Cozy Bear)">APT29 (Cozy Bear)</option>
-              <option value="Lazarus Group">Lazarus Group</option>
-              <option value="DarkSide">DarkSide</option>
-              <option value="REvil">REvil</option>
-              <option value="Conti">Conti</option>
-              <option value="Sandworm">Sandworm</option>
-              <option value="Killnet">Killnet</option>
-              <option value="Ghost Squad Hackers">Ghost Squad Hackers</option>
-              <option value="Syrian Electronic Army">Syrian Electronic Army</option>
-              <option value="RedHack">RedHack</option>
-              <option value="Ayyıldız Tim">Ayyıldız Tim</option>
-            </optgroup>
-            <optgroup label="Dark/Deep Web">
-              <option value="Silk Road">Silk Road</option>
-              <option value="AlphaBay">AlphaBay</option>
-              <option value="Dream Market">Dream Market</option>
-              <option value="Wall Street Market">Wall Street Market</option>
-              <option value="Hydra">Hydra</option>
-              <option value="Dark Web Forum">Dark Web Forum</option>
-              <option value="Onion Site">Onion Site</option>
-            </optgroup>
-            <optgroup label="Resmi Kaynaklar">
-              <option value="Resmi Belge">Resmi Belge</option>
-              <option value="Basın">Basın</option>
-              <option value="WikiLeaks">WikiLeaks</option>
-              <option value="Mahkeme Dosyası">Mahkeme Dosyası</option>
-              <option value="Devlet Arşivi">Devlet Arşivi</option>
-            </optgroup>
-            <optgroup label="Diğer">
-              <option value="İncel Forum">İncel Forum</option>
-              <option value="Chan Sitesi">Chan Sitesi</option>
-              <option value="Underground Forum">Underground Forum</option>
-              <option value="Bilinmeyen">Bilinmeyen</option>
-              <option value="Diğer">Diğer</option>
-            </optgroup>
+            <option value="Resmi Belge">Resmi Belge</option>
+            <option value="WikiLeaks">WikiLeaks</option>
+            <option value="Basın">Basın</option>
+            <option value="Anonymous">Anonymous</option>
+            <option value="RedHack">RedHack</option>
           </select>
         </div>
 
@@ -453,83 +472,26 @@
             <option value="">Tüm Türler</option>
             <option value="Savaş">Savaş</option>
             <option value="Cinayet">Cinayet</option>
-            <option value="Esrarengiz Ölüm">Esrarengiz Ölüm</option>
-            <option value="Patlama">Patlama</option>
-            <option value="Kaza">Kaza</option>
-            <option value="Suikast">Suikast</option>
             <option value="Terör">Terör</option>
-            <option value="İstihbarat">İstihbarat</option>
-            <option value="Sızıntı">Sızıntı</option>
-            <option value="Skandal">Skandal</option>
-            <option value="Deney">Deney</option>
-            <option value="Komplo">Komplo</option>
             <option value="Hack/Siber Saldırı">Hack/Siber Saldırı</option>
-            <option value="Uyuşturucu Ticareti">Uyuşturucu Ticareti</option>
-            <option value="İnsan Ticareti">İnsan Ticareti</option>
-            <option value="Silah Kaçakçılığı">Silah Kaçakçılığı</option>
-            <option value="Yolsuzluk">Yolsuzluk</option>
-            <option value="Rüşvet">Rüşvet</option>
-            <option value="Kara Para Aklama">Kara Para Aklama</option>
-            <option value="Organize Suç">Organize Suç</option>
-            <option value="Çocuk İstismarı">Çocuk İstismarı</option>
-            <option value="Tecavüz">Tecavüz</option>
-            <option value="İşkence">İşkence</option>
-            <option value="Savaş Suçu">Savaş Suçu</option>
-            <option value="Soykırım">Soykırım</option>
-            <option value="Etnik Temizlik">Etnik Temizlik</option>
-            <option value="Biyolojik Silah">Biyolojik Silah</option>
-            <option value="Kimyasal Silah">Kimyasal Silah</option>
-            <option value="Nükleer">Nükleer</option>
             <option value="Radyasyon">Radyasyon</option>
-            <option value="Zehirlenme">Zehirlenme</option>
-            <option value="MK-Ultra">MK-Ultra</option>
-            <option value="İnsan Deneyi">İnsan Deneyi</option>
-            <option value="Organ Kaçakçılığı">Organ Kaçakçılığı</option>
-            <option value="Pedofili Çetesi">Pedofili Çetesi</option>
-            <option value="Seri Katil">Seri Katil</option>
-            <option value="Kült/Tarikat">Kült/Tarikat</option>
-            <option value="Satanizm">Satanizm</option>
-            <option value="Okült">Okült</option>
-            <option value="UFO/Uzaylı">UFO/Uzaylı</option>
-            <option value="Paranormal">Paranormal</option>
-            <option value="Deep Web">Deep Web</option>
-            <option value="Dark Web">Dark Web</option>
-            <option value="Veri Sızıntısı">Veri Sızıntısı</option>
-            <option value="Fidye Yazılımı">Fidye Yazılımı</option>
-            <option value="DDoS Saldırısı">DDoS Saldırısı</option>
-            <option value="Sahte Haber">Sahte Haber</option>
-            <option value="Propaganda">Propaganda</option>
-            <option value="Psikolojik Harekat">Psikolojik Harekat</option>
-            <option value="Casusluk">Casusluk</option>
-            <option value="Ajan">Ajan</option>
-            <option value="Mossad">Mossad</option>
-            <option value="CIA">CIA</option>
-            <option value="MI6">MI6</option>
-            <option value="KGB">KGB</option>
-            <option value="FSB">FSB</option>
-            <option value="MİT">MİT</option>
-            <option value="Diğer">Diğer</option>
           </select>
         </div>
 
-<div class="filter-group">
-  <span class="filter-label">Ortam</span>
-  <select id="ortamFilter">
-    <option value="">Tüm Ortamlar</option>
-    <option value="Gerçek Dünya">Gerçek Dünya</option>
-    <option value="Dijital Dünya">Dijital Dünya</option>
-  </select>
-</div>
+        <div class="filter-group">
+          <span class="filter-label">Ortam</span>
+          <select id="ortamFilter">
+            <option value="">Tüm Ortamlar</option>
+            <option value="Gerçek Dünya">Gerçek Dünya</option>
+            <option value="Sanal Dünya">Sanal Dünya</option>
+            <option value="Her İkisi">Her İkisi</option>
+          </select>
+        </div>
 
         <div class="filter-group">
           <span class="filter-label">Yıl</span>
           <select id="yilFilter">
             <option value="">Tüm Yıllar</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
             <option value="2019">2019</option>
             <option value="2018">2018</option>
             <option value="2017">2017</option>
@@ -537,16 +499,8 @@
             <option value="2015">2015</option>
             <option value="2010-2014">2010-2014</option>
             <option value="2000-2009">2000-2009</option>
-            <option value="1990-1999">1990-1999</option>
             <option value="1980-1989">1980-1989</option>
-            <option value="1970-1979">1970-1979</option>
             <option value="1960-1969">1960-1969</option>
-            <option value="1950-1959">1950-1959</option>
-            <option value="1940-1949">1940-1949</option>
-            <option value="1930-1939">1930-1939</option>
-            <option value="1920-1929">1920-1929</option>
-            <option value="1900-1919">1900-1919</option>
-            <option value="1800-1899">1800-1899</option>
           </select>
         </div>
       </nav>
@@ -554,144 +508,129 @@
   </header>
 
   <main class="main-container">
-    <div id="content" class="content-grid">
-      <div id="belge-listesi" class="content-grid"></div>
-
-<div id="modal-ekran" class="modal">
-    <div class="modal-icerik">
-        <span class="kapat-buton">&times;</span>
-        <div id="modal-detay"></div>
-    </div>
-</div>
-        <div class="state-box">
-          <div class="state-icon">◉</div>
-          <div class="state-title">Dosyalar Yükleniyor</div>
-          <div class="state-message">Arşiv taranıyor...</div>
-        </div>
-      </div>
-    </div>
+    <div id="belge-listesi" class="content-grid"></div>
   </main>
 
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-title">Yasal Bilgilendirme</div>
-      <div class="footer-content">
-        <p><strong>Arşiv Hakkında:</strong> Bu platform, istihbarat teşkilatları ve devlet kurumlarının halka sunduğu resmi açıklamalar ile belgelerle kanıtlanmış gerçekler arasındaki tutarsızlıkları belgelemek amacıyla kurulmuştur. Tüm içerik, kamuya açık belgeler, sızdırılmış dokümanlar, resmi gazete ilanları ve tarihi kayıtlardan derlenmiştir.</p>
-
-        <p><strong>Belge Doğrulama:</strong> Her dosya, orijinal kaynak belgeleriyle desteklenmektedir. Belge görselleri Imgur gibi güvenilir platformlarda barındırılmakta ve kalıcı erişim sağlanmaktadır.</p>
-
-        <p><strong>Veri Koruma:</strong> Bu sitede hiçbir kişisel veri toplanmamaktadır. Çerez kullanılmamakta, IP adresi veya konum bilgisi kaydedilmemektedir. Platform tamamen statik bir arşiv olarak çalışmaktadır.</p>
-
-        <p><strong>Kapsam:</strong> Arşivimiz 16 farklı bölgeye ait dosyalar içermektedir: Almanya, Fransa, İngiltere, İrlanda, İtalya, İspanya (Avrupa); Türkiye, Bulgaristan, Yunanistan (Asya); Birleşik Devletler (Amerika); Afrika Kıtası; Suudi Arabistan, İsrail, Filistin (Orta Doğu); SSCB (Sovyet).</p>
-
-        <p><strong>İletişim:</strong> Kaynak doğrulama veya belge bildirimi için: <a href="mailto:info@dxles.eu">info@dxles.eu</a></p>
-
-        <p style="font-size: 0.8rem; color: #555; margin-top: 30px;">© 2024 Gizli Dosyalar Arşivi. Tüm hakları saklıdır.</p>
-      </div>
+  <!-- MODAL POPUP -->
+  <div id="modal-ekran" class="modal">
+    <div class="modal-container">
+      <span class="modal-close" onclick="kapatModal()">&times;</span>
+      <div id="modal-detay"></div>
     </div>
-  </footer>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script>
-const { createClient } = supabase;
-const supabaseClient = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key);
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script>
+    const { createClient } = supabase;
+    const supabaseClient = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key);
 
-const content = document.getElementById('belge-listesi');
-const randomBtn = document.getElementById('randomBtn');
-const listBtn = document.getElementById('listBtn');
-const ulkeFilter = document.getElementById('ulkeFilter');
-const platformFilter = document.getElementById('platformFilter');
-const turFilter = document.getElementById('turFilter');
-const ortamFilter = document.getElementById('ortamFilter');
-const yilFilter = document.getElementById('yilFilter');
+    const content = document.getElementById('belge-listesi');
+    const modal = document.getElementById('modal-ekran');
+    const modalDetay = document.getElementById('modal-detay');
+    
+    const randomBtn = document.getElementById('randomBtn');
+    const ulkeFilter = document.getElementById('ulkeFilter');
+    const platformFilter = document.getElementById('platformFilter');
+    const turFilter = document.getElementById('turFilter');
+    const ortamFilter = document.getElementById('ortamFilter');
+    const yilFilter = document.getElementById('yilFilter');
 
-function showLoading() {
-  content.innerHTML = '<div style="text-align:center;padding:100px;">Yükleniyor...</div>';
-}
-
-function showError(msg) {
-  content.innerHTML = `<div style="text-align:center;padding:100px;color:red;">HATA: ${msg}</div>`;
-}
-
-function showEmpty() {
-  content.innerHTML = '<div style="text-align:center;padding:100px;">Dosya bulunamadı.</div>';
-}
-
-function gosterDosya(dosya, clearContent = true) {
-  if (clearContent) content.innerHTML = '';
-  
-  const card = document.createElement('div');
-  card.className = 'dosya-card';
-  card.innerHTML = `
-    <div class="dosya-image-container">
-      <img src="${dosya.belge_url}" class="dosya-image">
-    </div>
-    <div class="dosya-content">
-      <div class="dosya-header">
-        <span class="badge badge-tur">${dosya.tur}</span>
-        <span class="badge badge-ulke">${dosya.ulke}</span>
-      </div>
-      <h3 class="dosya-title">${dosya.baslik}</h3>
-      <p class="dosya-excerpt">${dosya.ozet}</p>
-    </div>
-  `;
-  
-  card.onclick = () => {
-    alert('Detay: ' + dosya.detay);
-  };
-  
-  content.appendChild(card);
-}
-
-randomBtn.addEventListener('click', async () => {
-  showLoading();
-  try {
-    const { data, error } = await supabaseClient.from('gizli_dosyalar').select('*').limit(50);
-    if (error) throw error;
-    if (data && data.length > 0) {
-      const random = data[Math.floor(Math.random() * data.length)];
-      gosterDosya(random);
-    } else {
-      showEmpty();
+    // Modal Aç/Kapat
+    function acModal(dosya) {
+      modalDetay.innerHTML = `
+        <div class="modal-gorsel-alani">
+          <img src="${dosya.belge_url}" alt="${dosya.baslik}">
+          ${dosya.yalan_mi ? '<div class="modal-yalan-damga">YALAN</div>' : ''}
+        </div>
+        <div class="modal-content">
+          <div class="modal-meta">
+            <span class="badge badge-ulke">${dosya.ulke}</span>
+            <span class="badge badge-tur">${dosya.tur}</span>
+            ${dosya.yalan_mi ? '<span class="badge badge-yalan">YALAN</span>' : ''}
+          </div>
+          <h1 class="modal-title">${dosya.baslik}</h1>
+          <p class="modal-text">${dosya.detay}</p>
+          <div class="modal-footer-links">
+            <a href="${dosya.belge_url}" target="_blank" class="modal-belge-link">📄 TAM BELGEYI GÖR</a>
+            ${dosya.kaynak_link ? `<a href="${dosya.kaynak_link}" target="_blank" class="modal-kaynak-link">🔗 Orijinal Kaynağa Git →</a>` : ''}
+          </div>
+          ${dosya.gazete_haberi ? `<p style="margin-top:20px;color:#888;font-size:0.9rem;">${dosya.gazete_haberi}</p>` : ''}
+        </div>
+      `;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
-  } catch (err) {
-    showError(err.message);
-  }
-});
 
-listBtn.addEventListener('click', async () => {
-  showLoading();
-  try {
-    let query = supabaseClient.from('gizli_dosyalar').select('*').order('id', { ascending: false });
-    
-    if (ulkeFilter.value) query = query.eq('ulke', ulkeFilter.value);
-    if (platformFilter.value) query = query.eq('platform', platformFilter.value);
-    if (turFilter.value) query = query.eq('tur', turFilter.value);
-    if (ortamFilter.value) query = query.eq('ortam', ortamFilter.value);
-    if (yilFilter.value) query = query.eq('yil', yilFilter.value);
-    
-    const { data, error } = await query;
-    if (error) throw error;
-    
-    if (data && data.length > 0) {
-      content.innerHTML = '';
-      data.forEach(dosya => gosterDosya(dosya, false));
-    } else {
-      showEmpty();
+    function kapatModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
     }
-  } catch (err) {
-    showError(err.message);
-  }
-});
 
-[ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(f => {
-  f.addEventListener('change', () => listBtn.click());
-});
+    window.onclick = (e) => {
+      if (e.target == modal) kapatModal();
+    };
 
-window.onload = () => listBtn.click();
-</script>
+    // Belgeleri Listele
+    async function arsiviYukle() {
+      try {
+        let query = supabaseClient.from('gizli_dosyalar').select('*').order('id', { ascending: false });
+
+        if (ulkeFilter.value) query = query.eq('ulke', ulkeFilter.value);
+        if (platformFilter.value) query = query.eq('platform', platformFilter.value);
+        if (turFilter.value) query = query.eq('tur', turFilter.value);
+        if (ortamFilter.value) query = query.eq('ortam', ortamFilter.value);
+        if (yilFilter.value) query = query.eq('yil', yilFilter.value);
+
+        const { data, error } = await query;
+        if (error) throw error;
+
+        content.innerHTML = '';
+        if (data && data.length > 0) {
+          data.forEach(dosya => {
+            const card = document.createElement('div');
+            card.className = `dosya-card ${dosya.yalan_mi ? 'yalan' : ''}`;
+            card.onclick = () => acModal(dosya);
+            card.innerHTML = `
+              <div class="dosya-image-container">
+                ${dosya.yalan_mi ? '<img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'%3E%3Ctext x=\'100\' y=\'100\' text-anchor=\'middle\' font-size=\'60\' fill=\'%23dc2626\' font-weight=\'bold\' transform=\'rotate(-15 100 100)\'%3EYALAN%3C/text%3E%3C/svg%3E" class="yalan-damga" alt="YALAN">' : ''}
+                <img src="${dosya.belge_url}" class="dosya-image" alt="${dosya.baslik}">
+              </div>
+              <div class="dosya-content">
+                <div class="dosya-header">
+                  <span class="badge badge-tur">${dosya.tur}</span>
+                  <span class="badge badge-ulke">${dosya.ulke}</span>
+                </div>
+                <h3 class="dosya-title">${dosya.baslik}</h3>
+                <p class="dosya-excerpt">${dosya.ozet}</p>
+              </div>
+            `;
+            content.appendChild(card);
+          });
+        } else {
+          content.innerHTML = '<div class="state-message">Aranan kriterlere uygun dosya bulunamadı.</div>';
+        }
+      } catch (err) {
+        content.innerHTML = `<div class="state-message" style="color:red;">HATA: ${err.message}</div>`;
+      }
+    }
+
+    // Rastgele Dosya
+    randomBtn.addEventListener('click', async () => {
+      const { data } = await supabaseClient.from('gizli_dosyalar').select('*');
+      if (data && data.length > 0) {
+        const random = data[Math.floor(Math.random() * data.length)];
+        acModal(random);
+      }
+    });
+
+    // Filtre Değişince Yenile
+    [ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(filter => {
+      filter.addEventListener('change', arsiviYukle);
+    });
+
+    // Sayfa Açılınca Hepsini Göster
+    window.onload = arsiviYukle;
+  </script>
 </body>
-
 </html>
-
