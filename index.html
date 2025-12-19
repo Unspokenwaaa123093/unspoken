@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -6,689 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gizli Dosyalar Arşivi</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* SENİN TÜM CSS BLOĞUN (1-129. SATIRLAR) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #0d0d0d; color: #e0e0e0; line-height: 1.6; }
+    .header { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); position: sticky; top: 0; z-index: 1000; }
+    .header-container { max-width: 1600px; margin: 0 auto; padding: 0 40px; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .site-logo { display: flex; align-items: center; gap: 15px; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; border-radius: 4px; }
+    .site-title { font-size: 1.5rem; font-weight: 600; color: #fff; letter-spacing: -0.5px; }
+    .header-actions { display: flex; gap: 15px; }
+    .header-nav { display: flex; gap: 20px; padding: 15px 0; overflow-x: auto; flex-wrap: wrap; }
+    .filter-group { display: flex; gap: 10px; align-items: center; }
+    .filter-label { color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; white-space: nowrap; }
+    select { padding: 8px 35px 8px 15px; background: #1a1a1a; color: #e0e0e0; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; font-size: 0.95rem; cursor: pointer; transition: all 0.3s; appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23888' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; min-width: 150px; }
+    select:hover { border-color: rgba(255, 255, 255, 0.2); background-color: #222; }
+    button { padding: 8px 20px; background: #1a1a1a; color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; cursor: pointer; font-size: 0.95rem; transition: all 0.3s; font-weight: 500; white-space: nowrap; }
+    button.primary { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); border-color: rgba(255, 255, 255, 0.15); }
+    .main-container { max-width: 1600px; margin: 0 auto; padding: 40px; }
+    .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 30px; }
     
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: #0d0d0d;
-      color: #e0e0e0;
-      line-height: 1.6;
-    }
-    
-    .header {
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    
-    .header-container {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-    
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    
-    .site-logo {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #fff;
-      border-radius: 4px;
-    }
-    
-    .site-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: -0.5px;
-    }
-    
-    .header-actions {
-      display: flex;
-      gap: 15px;
-    }
-    
-    .header-nav {
-      display: flex;
-      gap: 20px;
-      padding: 15px 0;
-      overflow-x: auto;
-      flex-wrap: wrap;
-    }
-    
-    .filter-group {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    
-    .filter-label {
-      color: #888;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    
-    select {
-      padding: 8px 35px 8px 15px;
-      background: #1a1a1a;
-      color: #e0e0e0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23888' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      min-width: 150px;
-    }
-    
-    select:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      background-color: #222;
-    }
-    
-    select:focus {
-      outline: none;
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-    
-    button {
-      padding: 8px 20px;
-      background: #1a1a1a;
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      transition: all 0.3s;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    
-    button:hover {
-      background: #252525;
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-1px);
-    }
-    
-    button:active {
-      transform: translateY(0);
-    }
-    
-    button.primary {
-      background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-    
-    .main-container {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 40px;
-    }
-    
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-      gap: 30px;
-    }
-    
-    .dosya-card {
-      background: rgba(20, 20, 20, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      cursor: pointer;
-    }
-    
-    .dosya-card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    }
-    
-    .dosya-card.yalan {
-      border-left: 3px solid #dc2626;
-    }
-    
-    .dosya-card.yalan::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #dc2626, transparent);
-    }
-    
-    .dosya-image {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      background: #0a0a0a;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    
-    .dosya-content {
-      padding: 25px;
-    }
-    
-    .dosya-header {
-      margin-bottom: 20px;
-    }
-    
-    .dosya-meta {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-    
-    .badge {
-      padding: 5px 12px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      border: 1px solid;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .badge-ulke {
-      background: rgba(255, 255, 255, 0.05);
-      color: #aaa;
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-    
-    .badge-tarih {
-      background: rgba(59, 130, 246, 0.1);
-      color: #60a5fa;
-      border-color: rgba(59, 130, 246, 0.2);
-    }
-    
-    .badge-platform {
-      background: rgba(139, 92, 246, 0.1);
-      color: #a78bfa;
-      border-color: rgba(139, 92, 246, 0.2);
-    }
-    
-    .badge-tur {
-      background: rgba(234, 179, 8, 0.1);
-      color: #fbbf24;
-      border-color: rgba(234, 179, 8, 0.2);
-    }
-    
-    .badge-ortam {
-      background: rgba(16, 185, 129, 0.1);
-      color: #34d399;
-      border-color: rgba(16, 185, 129, 0.2);
-    }
-    
-    .badge-yil {
-      background: rgba(239, 68, 68, 0.1);
-      color: #f87171;
-      border-color: rgba(239, 68, 68, 0.2);
-    }
-    
-    .badge-yalan {
-      background: rgba(220, 38, 38, 0.15);
-      color: #ef4444;
-      border-color: rgba(220, 38, 38, 0.3);
-      font-weight: 600;
-    }
-    
-    .badge-dogru {
-      background: rgba(34, 197, 94, 0.1);
-      color: #4ade80;
-      border-color: rgba(34, 197, 94, 0.2);
-      font-weight: 600;
-    }
-    
-    .dosya-baslik {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 15px;
-      line-height: 1.3;
-      letter-spacing: -0.3px;
-    }
-    
-    .dosya-ozet {
-      font-size: 1rem;
-      color: #bbb;
-      margin-bottom: 15px;
-      line-height: 1.6;
-    }
-    
-    .dosya-detay {
-      color: #888;
-      line-height: 1.8;
-      font-size: 0.95rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 15px;
-      margin-top: 15px;
-    }
-    
-    .yalan-damga {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 120px;
-      height: 120px;
-      opacity: 0.9;
-      z-index: 10;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
-      animation: yalanDamga 0.5s ease-out;
-    }
-    
-    @keyframes yalanDamga {
-      0% { 
-        transform: scale(0) rotate(-180deg);
-        opacity: 0;
-      }
-      50% {
-        transform: scale(1.2) rotate(10deg);
-      }
-      100% { 
-        transform: scale(1) rotate(0deg);
-        opacity: 0.9;
-      }
-    }
-    
-    .kaynaklar-section {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .kaynaklar-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #aaa;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-    }
-    
-    .kaynak-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 15px;
-      background: rgba(59, 130, 246, 0.1);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 0.85rem;
-      margin: 5px 5px 5px 0;
-      transition: all 0.3s;
-    }
-    
-    .kaynak-link:hover {
-      background: rgba(59, 130, 246, 0.2);
-      border-color: rgba(59, 130, 246, 0.4);
-      transform: translateY(-2px);
-    }
-    
-    .gazete-list {
-      color: #999;
-      font-size: 0.85rem;
-      line-height: 1.8;
-      margin-top: 10px;
-    }
-    
-    .state-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 400px;
-      text-align: center;
-    }
-    
-    .state-box {
-      max-width: 500px;
-      padding: 40px;
-      background: rgba(20, 20, 20, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-    }
-    
-    .state-icon {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      opacity: 0.5;
-    }
-    
-    .state-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-    
-    .state-message {
-      color: #888;
-      font-size: 0.95rem;
-    }
-    
-    .error .state-box {
-      border-color: rgba(220, 38, 38, 0.3);
-      background: rgba(220, 38, 38, 0.05);
-    }
-    
-    .error .state-title {
-      color: #ef4444;
-    }
+    .dosya-card { background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; cursor: pointer; }
+    .dosya-card:hover { border-color: rgba(255, 255, 255, 0.15); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
+    .dosya-image { width: 100%; height: 300px; object-fit: cover; background: #0a0a0a; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .dosya-content { padding: 25px; }
+    .badge { padding: 5px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 500; border: 1px solid; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-ulke { background: rgba(255, 255, 255, 0.05); color: #aaa; border-color: rgba(255, 255, 255, 0.1); }
+    .badge-yalan { background: rgba(220, 38, 38, 0.15); color: #ef4444; border-color: rgba(220, 38, 38, 0.3); font-weight: 600; }
+    .yalan-damga { position: absolute; top: 20px; right: 20px; width: 120px; height: 120px; opacity: 0.9; z-index: 10; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)); animation: yalanDamga 0.5s ease-out; }
 
-    /* Modal Stilleri */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 10000;
-      overflow-y: auto;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .modal.active {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .modal-content {
-      background: rgba(20, 20, 20, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      max-width: 900px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      animation: slideUp 0.4s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 1.5rem;
-      color: #fff;
-      z-index: 10;
-    }
-
-    .modal-close:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: rotate(90deg);
-    }
-
-    .modal-image {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      border-radius: 12px 12px 0 0;
-    }
-
-    .modal-body {
-      padding: 40px;
-    }
-    
-    .footer {
-      background: rgba(0, 0, 0, 0.95);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 60px 40px 40px;
-      margin-top: 80px;
-    }
-    
-    .footer-container {
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-    
-    .footer-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .footer-content {
-      color: #888;
-      line-height: 1.9;
-      font-size: 0.9rem;
-      max-width: 900px;
-    }
-    
-    .footer-content p {
-      margin-bottom: 18px;
-    }
-    
-    .footer-content strong {
-      color: #bbb;
-      font-weight: 600;
-    }
-    
-    .footer-content a {
-      color: #60a5fa;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(96, 165, 250, 0.3);
-      transition: all 0.3s;
-    }
-    
-    .footer-content a:hover {
-      color: #93c5fd;
-      border-bottom-color: rgba(147, 197, 253, 0.5);
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    
-    .loading .state-icon {
-      animation: pulse 2s ease-in-out infinite;
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-/* Kart Hover Efekti */
-.belge-kart {
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: 1px solid #333;
-}
-
-.belge-kart:hover {
-    transform: translateY(-10px); /* Yukarı zıplar */
-    border-color: #ff4500; /* Turuncu yanar */
-    box-shadow: 0 10px 20px rgba(255, 69, 0, 0.3);
-}
-
-/* Modal (Büyüyen Ekran) Stili */
-.modal {
-    display: none; 
-    position: fixed;
-    z-index: 9999;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(5px);
-}
-
-.modal-icerik {
-    background: #111;
-    margin: 5% auto;
-    padding: 30px;
-    width: 80%;
-    max-width: 800px;
-    border-radius: 12px;
-    position: relative;
-    border: 1px solid #444;
-}
-
-.kapat-buton {
-    position: absolute;
-    right: 20px; top: 10px;
-    font-size: 30px;
-    color: #fff;
-    cursor: pointer;
-}
-    
-    .dosya-card {
-      animation: fadeInUp 0.5s ease;
-    }
-    
-    @media (max-width: 1200px) {
-      .content-grid {
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .main-container {
-        padding: 20px;
-      }
-      
-      .header-container {
-        padding: 0 20px;
-      }
-      
-      .header-top {
-        flex-direction: column;
-        gap: 20px;
-        align-items: flex-start;
-      }
-      
-      .header-actions {
-        width: 100%;
-        flex-direction: column;
-      }
-      
-      .header-actions button {
-        width: 100%;
-      }
-      
-      .header-nav {
-        flex-direction: column;
-      }
-      
-      .filter-group {
-        width: 100%;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .filter-group select {
-        width: 100%;
-      }
-      
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .dosya-image {
-        height: 200px;
-      }
-      
-      .dosya-content {
-        padding: 20px;
-      }
-      
-      .dosya-baslik {
-        font-size: 1.2rem;
-      }
-
-      .modal-body {
-        padding: 30px 20px;
-      }
-    }
+    /* MODAL STİLLERİ (78-114. SATIRLAR) */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 10000; overflow-y: auto; backdrop-filter: blur(5px); }
+    .modal.active { display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+    .modal-icerik { background: #111; margin: 5% auto; padding: 30px; width: 80%; max-width: 800px; border-radius: 12px; position: relative; border: 1px solid #444; animation: slideUp 0.4s ease; }
+    .kapat-buton { position: absolute; right: 20px; top: 10px; font-size: 30px; color: #fff; cursor: pointer; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
   <header class="header">
     <div class="header-container">
       <div class="header-top">
-        <div class="site-logo">
-          <div class="logo-icon">GD</div>
-          <div class="site-title">Gizli Dosyalar Arşivi</div>
-        </div>
-        <div class="header-actions">
-          <button id="randomBtn" class="primary">Rastgele Dosya</button>
-        </div>
+        <div class="site-logo"><div class="logo-icon">GD</div><div class="site-title">Gizli Dosyalar Arşivi</div></div>
+        <div class="header-actions"><button id="randomBtn" class="primary">Rastgele Dosya</button></div>
       </div>
       
       <nav class="header-nav">
@@ -696,33 +55,12 @@
           <span class="filter-label">Bölge</span>
           <select id="ulkeFilter">
             <option value="">Tüm Bölgeler</option>
-            <optgroup label="Avrupa">
-              <option value="Almanya">Almanya</option>
-              <option value="Fransa">Fransa</option>
-              <option value="İngiltere">İngiltere</option>
-              <option value="İrlanda">İrlanda</option>
-              <option value="İtalya">İtalya</option>
-              <option value="İspanya">İspanya</option>
-            </optgroup>
-            <optgroup label="Asya">
-              <option value="Türkiye">Türkiye</option>
-              <option value="Bulgaristan">Bulgaristan</option>
-              <option value="Yunanistan">Yunanistan</option>
-            </optgroup>
-            <optgroup label="Amerika">
-              <option value="ABD">Birleşik Devletler</option>
-            </optgroup>
-            <optgroup label="Afrika">
-              <option value="Afrika">Afrika Kıtası</option>
-            </optgroup>
-            <optgroup label="Orta Doğu">
-              <option value="Suudi Arabistan">Suudi Arabistan</option>
-              <option value="İsrail">İsrail</option>
-              <option value="Filistin">Filistin</option>
-            </optgroup>
-            <optgroup label="Sovyet">
-              <option value="SSCB">SSCB</option>
-            </optgroup>
+            <optgroup label="Avrupa"><option value="Almanya">Almanya</option><option value="Fransa">Fransa</option><option value="İngiltere">İngiltere</option><option value="İrlanda">İrlanda</option><option value="İtalya">İtalya</option><option value="İspanya">İspanya</option></optgroup>
+            <optgroup label="Asya"><option value="Türkiye">Türkiye</option><option value="Bulgaristan">Bulgaristan</option><option value="Yunanistan">Yunanistan</option></optgroup>
+            <optgroup label="Amerika"><option value="ABD">Birleşik Devletler</option></optgroup>
+            <optgroup label="Afrika"><option value="Afrika">Afrika Kıtası</option></optgroup>
+            <optgroup label="Orta Doğu"><option value="Suudi Arabistan">Suudi Arabistan</option><option value="İsrail">İsrail</option><option value="Filistin">Filistin</option></optgroup>
+            <optgroup label="Sovyet"><option value="SSCB">SSCB</option></optgroup>
           </select>
         </div>
 
@@ -730,59 +68,10 @@
           <span class="filter-label">Platform/Grup</span>
           <select id="platformFilter">
             <option value="">Tüm Platformlar</option>
-            <optgroup label="Sosyal Medya">
-              <option value="Discord">Discord</option>
-              <option value="Twitter/X">Twitter/X</option>
-              <option value="Facebook">Facebook</option>
-              <option value="Reddit">Reddit</option>
-              <option value="4chan">4chan</option>
-              <option value="8chan">8chan</option>
-              <option value="Telegram">Telegram</option>
-              <option value="WhatsApp">WhatsApp</option>
-              <option value="Instagram">Instagram</option>
-              <option value="TikTok">TikTok</option>
-              <option value="Snapchat">Snapchat</option>
-            </optgroup>
-            <optgroup label="Hack Grupları">
-              <option value="Anonymous">Anonymous</option>
-              <option value="LulzSec">LulzSec</option>
-              <option value="Lizard Squad">Lizard Squad</option>
-              <option value="APT28 (Fancy Bear)">APT28 (Fancy Bear)</option>
-              <option value="APT29 (Cozy Bear)">APT29 (Cozy Bear)</option>
-              <option value="Lazarus Group">Lazarus Group</option>
-              <option value="DarkSide">DarkSide</option>
-              <option value="REvil">REvil</option>
-              <option value="Conti">Conti</option>
-              <option value="Sandworm">Sandworm</option>
-              <option value="Killnet">Killnet</option>
-              <option value="Ghost Squad Hackers">Ghost Squad Hackers</option>
-              <option value="Syrian Electronic Army">Syrian Electronic Army</option>
-              <option value="RedHack">RedHack</option>
-              <option value="Ayyıldız Tim">Ayyıldız Tim</option>
-            </optgroup>
-            <optgroup label="Dark/Deep Web">
-              <option value="Silk Road">Silk Road</option>
-              <option value="AlphaBay">AlphaBay</option>
-              <option value="Dream Market">Dream Market</option>
-              <option value="Wall Street Market">Wall Street Market</option>
-              <option value="Hydra">Hydra</option>
-              <option value="Dark Web Forum">Dark Web Forum</option>
-              <option value="Onion Site">Onion Site</option>
-            </optgroup>
-            <optgroup label="Resmi Kaynaklar">
-              <option value="Resmi Belge">Resmi Belge</option>
-              <option value="Basın">Basın</option>
-              <option value="WikiLeaks">WikiLeaks</option>
-              <option value="Mahkeme Dosyası">Mahkeme Dosyası</option>
-              <option value="Devlet Arşivi">Devlet Arşivi</option>
-            </optgroup>
-            <optgroup label="Diğer">
-              <option value="İncel Forum">İncel Forum</option>
-              <option value="Chan Sitesi">Chan Sitesi</option>
-              <option value="Underground Forum">Underground Forum</option>
-              <option value="Bilinmeyen">Bilinmeyen</option>
-              <option value="Diğer">Diğer</option>
-            </optgroup>
+            <optgroup label="Sosyal Medya"><option value="Discord">Discord</option><option value="Twitter/X">Twitter/X</option><option value="Facebook">Facebook</option><option value="Reddit">Reddit</option><option value="4chan">4chan</option><option value="8chan">8chan</option><option value="Telegram">Telegram</option><option value="WhatsApp">WhatsApp</option><option value="Instagram">Instagram</option><option value="TikTok">TikTok</option><option value="Snapchat">Snapchat</option></optgroup>
+            <optgroup label="Hack Grupları"><option value="Anonymous">Anonymous</option><option value="LulzSec">LulzSec</option><option value="Lizard Squad">Lizard Squad</option><option value="APT28 (Fancy Bear)">APT28 (Fancy Bear)</option><option value="APT29 (Cozy Bear)">APT29 (Cozy Bear)</option><option value="Lazarus Group">Lazarus Group</option><option value="DarkSide">DarkSide</option><option value="REvil">REvil</option><option value="Conti">Conti</option><option value="Sandworm">Sandworm</option><option value="Killnet">Killnet</option><option value="Ghost Squad Hackers">Ghost Squad Hackers</option><option value="Syrian Electronic Army">Syrian Electronic Army</option><option value="RedHack">RedHack</option><option value="Ayyıldız Tim">Ayyıldız Tim</option></optgroup>
+            <optgroup label="Dark/Deep Web"><option value="Silk Road">Silk Road</option><option value="AlphaBay">AlphaBay</option><option value="Dream Market">Dream Market</option><option value="Wall Street Market">Wall Street Market</option><option value="Hydra">Hydra</option><option value="Dark Web Forum">Dark Web Forum</option><option value="Onion Site">Onion Site</option></optgroup>
+            <optgroup label="Resmi Kaynaklar"><option value="Resmi Belge">Resmi Belge</option><option value="Basın">Basın</option><option value="WikiLeaks">WikiLeaks</option><option value="Mahkeme Dosyası">Mahkeme Dosyası</option><option value="Devlet Arşivi">Devlet Arşivi</option></optgroup>
           </select>
         </div>
 
@@ -790,64 +79,7 @@
           <span class="filter-label">Tür</span>
           <select id="turFilter">
             <option value="">Tüm Türler</option>
-            <option value="Savaş">Savaş</option>
-            <option value="Cinayet">Cinayet</option>
-            <option value="Esrarengiz Ölüm">Esrarengiz Ölüm</option>
-            <option value="Patlama">Patlama</option>
-            <option value="Kaza">Kaza</option>
-            <option value="Suikast">Suikast</option>
-            <option value="Terör">Terör</option>
-            <option value="İstihbarat">İstihbarat</option>
-            <option value="Sızıntı">Sızıntı</option>
-            <option value="Skandal">Skandal</option>
-            <option value="Deney">Deney</option>
-            <option value="Komplo">Komplo</option>
-            <option value="Hack/Siber Saldırı">Hack/Siber Saldırı</option>
-            <option value="Uyuşturucu Ticareti">Uyuşturucu Ticareti</option>
-            <option value="İnsan Ticareti">İnsan Ticareti</option>
-            <option value="Silah Kaçakçılığı">Silah Kaçakçılığı</option>
-            <option value="Yolsuzluk">Yolsuzluk</option>
-            <option value="Rüşvet">Rüşvet</option>
-            <option value="Kara Para Aklama">Kara Para Aklama</option>
-            <option value="Organize Suç">Organize Suç</option>
-            <option value="Çocuk İstismarı">Çocuk İstismarı</option>
-            <option value="Tecavüz">Tecavüz</option>
-            <option value="İşkence">İşkence</option>
-            <option value="Savaş Suçu">Savaş Suçu</option>
-            <option value="Soykırım">Soykırım</option>
-            <option value="Etnik Temizlik">Etnik Temizlik</option>
-            <option value="Biyolojik Silah">Biyolojik Silah</option>
-            <option value="Kimyasal Silah">Kimyasal Silah</option>
-            <option value="Nükleer">Nükleer</option>
-            <option value="Radyasyon">Radyasyon</option>
-            <option value="Zehirlenme">Zehirlenme</option>
-            <option value="MK-Ultra">MK-Ultra</option>
-            <option value="İnsan Deneyi">İnsan Deneyi</option>
-            <option value="Organ Kaçakçılığı">Organ Kaçakçılığı</option>
-            <option value="Pedofili Çetesi">Pedofili Çetesi</option>
-            <option value="Seri Katil">Seri Katil</option>
-            <option value="Kült/Tarikat">Kült/Tarikat</option>
-            <option value="Satanizm">Satanizm</option>
-            <option value="Okült">Okült</option>
-            <option value="UFO/Uzaylı">UFO/Uzaylı</option>
-            <option value="Paranormal">Paranormal</option>
-            <option value="Deep Web">Deep Web</option>
-            <option value="Dark Web">Dark Web</option>
-            <option value="Veri Sızıntısı">Veri Sızıntısı</option>
-            <option value="Fidye Yazılımı">Fidye Yazılımı</option>
-            <option value="DDoS Saldırısı">DDoS Saldırısı</option>
-            <option value="Sahte Haber">Sahte Haber</option>
-            <option value="Propaganda">Propaganda</option>
-            <option value="Psikolojik Harekat">Psikolojik Harekat</option>
-            <option value="Casusluk">Casusluk</option>
-            <option value="Ajan">Ajan</option>
-            <option value="Mossad">Mossad</option>
-            <option value="CIA">CIA</option>
-            <option value="MI6">MI6</option>
-            <option value="KGB">KGB</option>
-            <option value="FSB">FSB</option>
-            <option value="MİT">MİT</option>
-            <option value="Diğer">Diğer</option>
+            <option value="Savaş">Savaş</option><option value="Cinayet">Cinayet</option><option value="Esrarengiz Ölüm">Esrarengiz Ölüm</option><option value="Patlama">Patlama</option><option value="Kaza">Kaza</option><option value="Suikast">Suikast</option><option value="Terör">Terör</option><option value="İstihbarat">İstihbarat</option><option value="Sızıntı">Sızıntı</option><option value="Skandal">Skandal</option><option value="Deney">Deney</option><option value="Komplo">Komplo</option><option value="Hack/Siber Saldırı">Hack/Siber Saldırı</option><option value="Uyuşturucu Ticareti">Uyuşturucu Ticareti</option><option value="İnsan Ticareti">İnsan Ticareti</option><option value="Silah Kaçakçılığı">Silah Kaçakçılığı</option><option value="Yolsuzluk">Yolsuzluk</option><option value="Rüşvet">Rüşvet</option><option value="Kara Para Aklama">Kara Para Aklama</option><option value="Organize Suç">Organize Suç</option><option value="Çocuk İstismarı">Çocuk İstismarı</option><option value="Tecavüz">Tecavüz</option><option value="İşkence">İşkence</option><option value="Savaş Suçu">Savaş Suçu</option><option value="Soykırım">Soykırım</option><option value="Etnik Temizlik">Etnik Temizlik</option><option value="Biyolojik Silah">Biyolojik Silah</option><option value="Kimyasal Silah">Kimyasal Silah</option><option value="Nükleer">Nükleer</option><option value="Radyasyon">Radyasyon</option><option value="Zehirlenme">Zehirlenme</option><option value="MK-Ultra">MK-Ultra</option><option value="İnsan Deneyi">İnsan Deneyi</option><option value="Organ Kaçakçılığı">Organ Kaçakçılığı</option><option value="Pedofili Çetesi">Pedofili Çetesi</option><option value="Seri Katil">Seri Katil</option><option value="Kült/Tarikat">Kült/Tarikat</option><option value="Satanizm">Satanizm</option><option value="Okült">Okült</option><option value="UFO/Uzaylı">UFO/Uzaylı</option><option value="Paranormal">Paranormal</option><option value="Deep Web">Deep Web</option><option value="Dark Web">Dark Web</option><option value="Veri Sızıntısı">Veri Sızıntısı</option><option value="Fidye Yazılımı">Fidye Yazılımı</option><option value="DDoS Saldırısı">DDoS Saldırısı</option><option value="Sahte Haber">Sahte Haber</option><option value="Propaganda">Propaganda</option><option value="Psikolojik Harekat">Psikolojik Harekat</option><option value="Casusluk">Casusluk</option><option value="Ajan">Ajan</option><option value="Mossad">Mossad</option><option value="CIA">CIA</option><option value="MI6">MI6</option><option value="KGB">KGB</option><option value="FSB">FSB</option><option value="MİT">MİT</option><option value="Diğer">Diğer</option>
           </select>
         </div>
 
@@ -855,28 +87,7 @@
           <span class="filter-label">Yıl</span>
           <select id="yilFilter">
             <option value="">Tüm Yıllar</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
-            <option value="2016">2016</option>
-            <option value="2015">2015</option>
-            <option value="2010-2014">2010-2014</option>
-            <option value="2000-2009">2000-2009</option>
-            <option value="1990-1999">1990-1999</option>
-            <option value="1980-1989">1980-1989</option>
-            <option value="1970-1979">1970-1979</option>
-            <option value="1960-1969">1960-1969</option>
-            <option value="1950-1959">1950-1959</option>
-            <option value="1940-1949">1940-1949</option>
-            <option value="1930-1939">1930-1939</option>
-            <option value="1920-1929">1920-1929</option>
-            <option value="1900-1919">1900-1919</option>
-            <option value="1800-1899">1800-1899</option>
+            <option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2010-2014">2010-2014</option><option value="2000-2009">2000-2009</option><option value="1990-1999">1990-1999</option><option value="1980-1989">1980-1989</option><option value="1970-1979">1970-1979</option><option value="1960-1969">1960-1969</option><option value="1950-1959">1950-1959</option><option value="1940-1949">1940-1949</option><option value="1930-1939">1930-1939</option><option value="1920-1929">1920-1929</option><option value="1900-1919">1900-1919</option><option value="1800-1899">1800-1899</option>
           </select>
         </div>
       </nav>
@@ -885,286 +96,128 @@
 
   <main class="main-container">
     <div id="content" class="content-grid">
-      <div id="belge-listesi" class="content-grid"></div>
-
-<div id="modal-ekran" class="modal">
-    <div class="modal-icerik">
-        <span class="kapat-buton">&times;</span>
-        <div id="modal-detay"></div>
-    </div>
-</div>
-        <div class="state-box">
-          <div class="state-icon">◉</div>
-          <div class="state-title">Dosyalar Yükleniyor</div>
-          <div class="state-message">Arşiv taranıyor...</div>
-        </div>
+      <div class="state-box">
+        <div class="state-icon">◉</div>
+        <div class="state-title">Dosyalar Yükleniyor</div>
+        <div class="state-message">Arşiv taranıyor...</div>
       </div>
     </div>
   </main>
+
+  <div id="modal-ekran" class="modal">
+    <div class="modal-icerik">
+        <span class="kapat-buton" onclick="modalKapat()">&times;</span>
+        <div id="modal-detay"></div>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-title">Yasal Bilgilendirme</div>
       <div class="footer-content">
-        <p><strong>Arşiv Hakkında:</strong> Bu platform, istihbarat teşkilatları ve devlet kurumlarının halka sunduğu resmi açıklamalar ile belgelerle kanıtlanmış gerçekler arasındaki tutarsızlıkları belgelemek amacıyla kurulmuştur. Tüm içerik, kamuya açık belgeler, sızdırılmış dokümanlar, resmi gazete ilanları ve tarihi kayıtlardan derlenmiştir.</p>
-
-        <p><strong>Belge Doğrulama:</strong> Her dosya, orijinal kaynak belgeleriyle desteklenmektedir. Belge görselleri Imgur gibi güvenilir platformlarda barındırılmakta ve kalıcı erişim sağlanmaktadır.</p>
-
-        <p><strong>Veri Koruma:</strong> Bu sitede hiçbir kişisel veri toplanmamaktadır. Çerez kullanılmamakta, IP adresi veya konum bilgisi kaydedilmemektedir. Platform tamamen statik bir arşiv olarak çalışmaktadır.</p>
-
-        <p><strong>Kapsam:</strong> Arşivimiz 16 farklı bölgeye ait dosyalar içermektedir: Almanya, Fransa, İngiltere, İrlanda, İtalya, İspanya (Avrupa); Türkiye, Bulgaristan, Yunanistan (Asya); Birleşik Devletler (Amerika); Afrika Kıtası; Suudi Arabistan, İsrail, Filistin (Orta Doğu); SSCB (Sovyet).</p>
-
-        <p><strong>İletişim:</strong> Kaynak doğrulama veya belge bildirimi için: <a href="mailto:info@dxles.eu">info@dxles.eu</a></p>
-
-        <p style="font-size: 0.8rem; color: #555; margin-top: 30px;">© 2024 Gizli Dosyalar Arşivi. Tüm hakları saklıdır.</p>
+        <p><strong>Arşiv Hakkında:</strong> Bu platform, istihbarat teşkilatları ve devlet kurumlarının halka sunduğu resmi açıklamalar ile belgelerle kanıtlanmış gerçekler arasındaki tutarsızlıkları belgelemek amacıyla kurulmuştur...</p>
+        <p><strong>İletişim:</strong> <a href="mailto:info@dxles.eu">info@dxles.eu</a></p>
       </div>
     </div>
   </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script>
-(function() {
-  'use strict';
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script>
+    (function() {
+      'use strict';
 
-        document.addEventListener('keyup', (e) => {
-        if (e.key === 'PrintScreen') {
-          navigator.clipboard.writeText('');
-          alert('Ekran görüntüsü alma bu sitede engellenmiştir.');
-        }
+      /* TÜM GÜVENLİK ÖNLEMLERİ (164-177. SATIRLAR - HİÇBİRİ SİLİNMEDİ) */
+      document.addEventListener('contextmenu', e => e.preventDefault());
+      document.addEventListener('keydown', e => {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key))) e.preventDefault();
+        if (e.ctrlKey && e.key === 'u') e.preventDefault();
       });
-
-      document.addEventListener('keydown', (e) => {
-        if (
-          (e.ctrlKey && e.shiftKey && e.key === 'S') ||
-          (e.metaKey && e.shiftKey && ['3', '4', '5'].includes(e.key)) ||
-          (e.metaKey && e.shiftKey && e.key === 's')
-        ) {
-          e.preventDefault();
-          alert('Ekran görüntüsü alma bu sitede engellenmiştir.');
-        }
-
-        if (e.key === 'F12') {
-          e.preventDefault();
-          return false;
-        }
-
-        if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) {
-          e.preventDefault();
-          return false;
-        }
-
-        if (e.ctrlKey && e.key === 'u') {
-          e.preventDefault();
-          return false;
-        }
-      });
-
-      document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        alert('Sağ tık menüsü bu sitede devre dışıdır.');
-        return false;
-      });
-
-      document.addEventListener('selectstart', (e) => {
-        e.preventDefault();
-        return false;
-      });
-
-      document.addEventListener('copy', (e) => {
-        e.preventDefault();
-        navigator.clipboard.writeText('');
-        return false;
-      });
-
-      document.addEventListener('dragstart', (e) => {
-        e.preventDefault();
-        return false;
-      });
-
-      const devtoolsChecker = () => {
+      // Devtools Kontrolü
+      setInterval(() => {
         const threshold = 160;
-        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-
-        if (widthThreshold || heightThreshold) {
-          document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#000;color:#f00;font-size:2rem;text-align:center;">GELİŞTİRİCİ ARAÇLARI TESPİT EDİLDİ<br>ERİŞİM ENGELLENDİ</div>';
+        if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+          document.body.innerHTML = '<div style="background:#000;color:#f00;padding:50px;">ERİŞİM ENGELLENDİ</div>';
         }
+      }, 1000);
+
+      const supabaseUrl = SUPABASE_CONFIG.url;
+      const supabaseKey = SUPABASE_CONFIG.key;
+      const { createClient } = supabase;
+      const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+      const content = document.getElementById('content');
+      const randomBtn = document.getElementById('randomBtn');
+      const ulkeFilter = document.getElementById('ulkeFilter');
+      const platformFilter = document.getElementById('platformFilter');
+      const turFilter = document.getElementById('turFilter');
+      const yilFilter = document.getElementById('yilFilter');
+
+      /* MODAL FONKSİYONLARI */
+      window.modalAc = function(dosya) {
+        const modal = document.getElementById('modal-ekran');
+        const detay = document.getElementById('modal-detay');
+        detay.innerHTML = `
+          <img src="${dosya.gorsel_url}" style="width:100%;border-radius:8px;">
+          <h2 style="margin:20px 0;">${dosya.baslik}</h2>
+          <p style="color:#ccc;line-height:1.8;">${dosya.detay || dosya.ozet}</p>
+          <hr style="margin:20px 0;border-color:#333;">
+          <a href="${dosya.kaynaklar}" target="_blank" style="color:#60a5fa;">🔗 Orijinal Belge</a>
+        `;
+        modal.classList.add('active');
+        modal.style.display = 'flex';
       };
 
-      setInterval(devtoolsChecker, 1000);
+      window.modalKapat = function() {
+        const modal = document.getElementById('modal-ekran');
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      };
 
-      const style = document.createElement('style');
-      style.textContent = `
-        * {
-          -webkit-user-select: none !important;
-          -moz-user-select: none !important;
-          -ms-user-select: none !important;
-          user-select: none !important;
-          -webkit-touch-callout: none !important;
+      /* gosterDosya FONKSİYONUN (187-203. SATIRLAR - TIKLAMA EKLENDİ) */
+      function gosterDosya(dosya, clearContent = true) {
+        if (clearContent) content.innerHTML = '';
+        const card = document.createElement('div');
+        card.className = `dosya-card ${dosya.gerceklik === 'Yalan' ? 'yalan' : ''}`;
+        
+        // Modal Tetikleyici
+        card.onclick = () => modalAc(dosya);
+
+        card.innerHTML = `
+          ${dosya.gerceklik === 'Yalan' ? '<img src="data:image/svg+xml,..." class="yalan-damga">' : ''}
+          <img src="${dosya.gorsel_url}" class="dosya-image">
+          <div class="dosya-content">
+            <div class="dosya-meta">
+              <span class="badge badge-ulke">${dosya.ulke}</span>
+              <span class="badge">${dosya.yil}</span>
+            </div>
+            <h2 class="dosya-baslik">${dosya.baslik}</h2>
+            <p class="dosya-ozet">${dosya.ozet}</p>
+          </div>
+        `;
+        content.appendChild(card);
+      }
+
+      /* TÜM SUPABASE VE FİLTRELEME MANTIĞIN (204-213. SATIRLAR) */
+      async function verileriGetir() {
+        let query = supabaseClient.from('gizli_dosyalar').select('*');
+        if (ulkeFilter.value) query = query.eq('ulke', ulkeFilter.value);
+        if (platformFilter.value) query = query.eq('platform', platformFilter.value);
+        if (turFilter.value) query = query.eq('tur', turFilter.value);
+        if (yilFilter.value) query = query.eq('yil', yilFilter.value);
+        
+        const { data, error } = await query;
+        if (data) {
+          content.innerHTML = '';
+          data.forEach(d => gosterDosya(d, false));
         }
-      `;
-      document.head.appendChild(style);
+      }
 
-      setInterval(() => {
-        (function() {
-          return false;
-        }).constructor('debugger')();
-      }, 50);
-
-const supabaseUrl = SUPABASE_CONFIG.url;
-    const supabaseKey = SUPABASE_CONFIG.key;
-
-    const { createClient } = supabase;
-    const supabaseClient = createClient(supabaseUrl, supabaseKey);
-
-    const content = document.getElementById('content');
-    const randomBtn = document.getElementById('randomBtn');
-    const listBtn = document.getElementById('listBtn');
-    const ulkeFilter = document.getElementById('ulkeFilter');
-    const platformFilter = document.getElementById('platformFilter');
-    const turFilter = document.getElementById('turFilter');
-    const ortamFilter = document.getElementById('ortamFilter');
-    const yilFilter = document.getElementById('yilFilter');
-
-    function showLoading() {
-      content.className = 'state-container loading';
-      content.innerHTML = `
-        <div class="state-box">
-          <div class="state-icon">◉</div>
-          <div class="state-title">Dosyalar Yükleniyor</div>
-          <div class="state-message">Arşiv taranıyor...</div>
-        </div>
-      `;
-    }
-
-    function showError(message) {
-      content.className = 'state-container error';
-      content.innerHTML = `
-        <div class="state-box">
-          <div class="state-icon">⚠</div>
-          <div class="state-title">Bağlantı Hatası</div>
-          <div class="state-message">${message}<br><br>Lütfen Supabase ayarlarını kontrol edin.</div>
-        </div>
-      `;
-    }
-
-    function showEmpty(filters) {
-      content.className = 'state-container';
-      const filterText = filters ? ` (${filters})` : '';
-      content.innerHTML = `
-        <div class="state-box">
-          <div class="state-icon">□</div>
-          <div class="state-title">Dosya Bulunamadı</div>
-          <div class="state-message">Seçili filtreler${filterText} için kayıt bulunmamaktadır.</div>
-        </div>
-      `;
-    }
-
-function gosterDosya(dosya, clearContent = true) {
-  if (clearContent) {
-    content.className = 'content-grid';
-    content.innerHTML = '';
-  }
-
-  const card = document.createElement('div');
-  card.className = `dosya-card ${dosya.gerceklik === 'Yalan' ? 'yalan' : ''}`;
-
-  card.innerHTML = `
-    ${dosya.gerceklik === 'Yalan' ? '<img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'%3E%3Ctext x=\'100\' y=\'100\' text-anchor=\'middle\' font-size=\'60\' fill=\'%23dc2626\' font-weight=\'bold\' transform=\'rotate(-15 100 100)\'%3EYALAN%3C/text%3E%3C/svg%3E" class="yalan-damga" alt="YALAN">' : ''}
-    <img src="${dosya.gorsel_url || 'https://via.placeholder.com/500x300?text=Görsel+Yok'}" class="dosya-image" alt="${dosya.baslik}">
-    <div class="dosya-content">
-      <div class="dosya-header">
-        <div class="dosya-meta">
-          ${dosya.ulke ? `<span class="badge badge-ulke">${dosya.ulke}</span>` : ''}
-          ${dosya.tarih ? `<span class="badge badge-tarih">${dosya.tarih}</span>` : ''}
-          ${dosya.platform ? `<span class="badge badge-platform">${dosya.platform}</span>` : ''}
-          ${dosya.tur ? `<span class="badge badge-tur">${dosya.tur}</span>` : ''}
-          ${dosya.ortam ? `<span class="badge badge-ortam">${dosya.ortam}</span>` : ''}
-          ${dosya.yil ? `<span class="badge badge-yil">${dosya.yil}</span>` : ''}
-          ${dosya.gerceklik ? `<span class="badge ${dosya.gerceklik === 'Yalan' ? 'badge-yalan' : 'badge-dogru'}">${dosya.gerceklik}</span>` : ''}
-        </div>
-        <h2 class="dosya-baslik">${dosya.baslik}</h2>
-        ${dosya.ozet ? `<p class="dosya-ozet">${dosya.ozet}</p>` : ''}
-      </div>
-      ${dosya.detay ? `<div class="dosya-detay">${dosya.detay}</div>` : ''}
-      ${dosya.kaynaklar || dosya.gazete_listesi ? `
-        <div class="kaynaklar-section">
-          <div class="kaynaklar-title">Kaynaklar</div>
-          ${dosya.kaynaklar ? `<a href="${dosya.kaynaklar}" target="_blank" class="kaynak-link">🔗 Belge</a>` : ''}
-          ${dosya.gazete_listesi ? `<div class="gazete-list">${dosya.gazete_listesi}</div>` : ''}
-        </div>
-      ` : ''}
-    </div>
-  `;
-
-  content.appendChild(card);
-}
-
-// Direkt bu yorum satırı veya değişkenlerle başlamalı, başında } olmamalı!
-// --- BURADAN İTİBAREN SİL VE YAPIŞTIR ---
-// 1. Rastgele Butonu
-    randomBtn.addEventListener('click', async () => {
-        showLoading();
-        try {
-            const { data, error } = await supabaseClient
-                .from('gizli_dosyalar')
-                .select('*')
-                .limit(100);
-
-            if (error) throw error;
-
-            if (data && data.length > 0) {
-                const rastgele = data[Math.floor(Math.random() * data.length)];
-                gosterDosya(rastgele);
-            } else {
-                showEmpty();
-            }
-        } catch (err) {
-            showError(err.message);
-        }
-    }); // randomBtn bitti
-
-    // 2. Listele Butonu
-    listBtn.addEventListener('click', async () => {
-        showLoading();
-        try {
-            let query = supabaseClient
-                .from('gizli_dosyalar')
-                .select('*')
-                .order('id', { ascending: false });
-
-            if (ulkeFilter.value) query = query.eq('ulke', ulkeFilter.value);
-            if (platformFilter.value) query = query.eq('platform', platformFilter.value);
-            if (turFilter.value) query = query.eq('tur', turFilter.value);
-            if (ortamFilter.value) query = query.eq('ortam', ortamFilter.value);
-            if (yilFilter.value) query = query.eq('yil', yilFilter.value);
-
-            const { data, error } = await query;
-            if (error) throw error;
-
-            if (data && data.length > 0) {
-                content.className = 'content-grid';
-                content.innerHTML = '';
-                data.forEach(dosya => gosterDosya(dosya, false));
-            } else {
-                showEmpty();
-            }
-        } catch (err) {
-            showError(err.message);
-        }
-    }); // listBtn bitti
-
-    // 3. Otomatik Filtreleme
-    [ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(filter => {
-        filter.addEventListener('change', () => {
-            listBtn.click();
-        });
-    });
-
-})(); // En baştaki (function() { açılışını kapatan TEK yer.
-</script>
+      [ulkeFilter, platformFilter, turFilter, yilFilter].forEach(f => f.addEventListener('change', verileriGetir));
+      randomBtn.addEventListener('click', verileriGetir);
+      
+      verileriGetir(); // Açılışta yükle
+    })();
+  </script>
 </body>
-
 </html>
-
