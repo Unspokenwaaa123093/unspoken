@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desteklerimiz - Gizli Dosyalar Arşivi</title>
+  <title>Desteklerimiz - Unspoken Archive | TR</title>
   <style>
     * {
       margin: 0;
@@ -377,7 +377,7 @@
     <div class="header-container">
       <div class="header-top">
         <div class="site-logo">
-          <div class="logo-icon">dx</div>
+          <div class="logo-icon">UA</div>
           <div class="site-title">Desteklerimiz</div>
         </div>
         <div class="header-actions">
