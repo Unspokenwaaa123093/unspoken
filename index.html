@@ -883,15 +883,6 @@
       }
     }
 
-    // Rastgele Dosya
-    randomBtn.addEventListener('click', async () => {
-      const { data } = await supabaseClient.from('gizli_dosyalar').select('*');
-      if (data && data.length > 0) {
-        const random = data[Math.floor(Math.random() * data.length)];
-        acModal(random);
-      }
-    });
-
     // Filtre Değişince Yenile
     [ulkeFilter, platformFilter, turFilter, ortamFilter, yilFilter].forEach(filter => {
       filter.addEventListener('change', arsiviYukle);
@@ -970,4 +961,5 @@
   </script>
 </body>
 </html>
+
 
