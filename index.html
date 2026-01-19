@@ -5,8 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000">
     <meta name="description" content="Küllerimden Tekrar Doğarım">
-    <title>Dxles</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Küllerimden Tekrar Doğarım</title>
+    <style>
+        /* CSS BÖLÜMÜ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        /* Arka Plan Canvası */
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* Ana İçerik */
+        main {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            pointer-events: none; /* Mouse hareketini canvas algılasın diye */
+        }
+
+        #main-text {
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 2.5rem;
+            font-weight: 200;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            text-align: center;
+            user-select: none;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ff5e00;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            #main-text {
+                font-size: 1.3rem;
+                letter-spacing: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -18,12 +93,92 @@
     
     <footer>
         <a href="https://instagram.com/2xles" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>
         </a>
     </footer>
-    
-    <script src="script.js"></script>
+
+    <script>
+        // JS BÖLÜMÜ
+        document.addEventListener("DOMContentLoaded", () => {
+            const canvas = document.getElementById('background-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const colors = {
+                black: { r: 0, g: 0, b: 0 },
+                darkRed: { r: 85, g: 25, b: 25 },
+                darkBlue: { r: 20, g: 30, b: 70 },
+                orange: { r: 190, g: 95, b: 45 }
+            };
+
+            let mouseX = 0.5;
+            let mouseY = 0.5;
+            let currentColor = { r: 0, g: 0, b: 0 };
+            let targetColor  = { r: 0, g: 0, b: 0 };
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            function lerpColor(c1, c2, f) {
+                return {
+                    r: c1.r + (c2.r - c1.r) * f,
+                    g: c1.g + (c2.g - c1.g) * f,
+                    b: c1.b + (c2.b - c1.b) * f
+                };
+            }
+
+            function updateTargetColor() {
+                const topColor = lerpColor(colors.black, colors.darkBlue, mouseX);
+                const bottomColor = lerpColor(colors.darkRed, colors.orange, mouseX);
+                targetColor = lerpColor(topColor, bottomColor, mouseY);
+            }
+
+            function draw() {
+                currentColor.r += (targetColor.r - currentColor.r) * 0.05;
+                currentColor.g += (targetColor.g - currentColor.g) * 0.05;
+                currentColor.b += (targetColor.b - currentColor.b) * 0.05;
+
+                const r = Math.floor(currentColor.r);
+                const g = Math.floor(currentColor.g);
+                const b = Math.floor(currentColor.b);
+
+                const cx = canvas.width * mouseX;
+                const cy = canvas.height * mouseY;
+                const radius = Math.max(canvas.width, canvas.height) * 0.8;
+
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+                grad.addColorStop(0, `rgba(${Math.min(255, r+30)}, ${Math.min(255, g+30)}, ${Math.min(255, b+30)}, 0.4)`);
+                grad.addColorStop(0.3, `rgb(${r}, ${g}, ${b})`);
+                grad.addColorStop(1, `rgb(${Math.max(0, r-20)}, ${Math.max(0, g-20)}, ${Math.max(0, b-20)})`);
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('mousemove', e => {
+                mouseX = e.clientX / window.innerWidth;
+                mouseY = e.clientY / window.innerHeight;
+                updateTargetColor();
+            });
+
+            window.addEventListener('deviceorientation', e => {
+                if (e.gamma !== null && e.beta !== null) {
+                    mouseX = Math.max(0, Math.min(1, (e.gamma + 90) / 180));
+                    mouseY = Math.max(0, Math.min(1, (e.beta + 90) / 180));
+                    updateTargetColor();
+                }
+            });
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            updateTargetColor();
+            draw();
+        });
+    </script>
 </body>
 </html>
