@@ -1,6 +1,7 @@
-/* Reset ve temel ayarlar */
+/* Google Font - EN ÜSTTE */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@800;900&display=swap');
 
+/* Reset ve temel ayarlar */
 * {
     margin: 0;
     padding: 0;
@@ -10,32 +11,32 @@
 html, body {
     width: 100%;
     height: 100%;
+    min-height: 100%;
     overflow: hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #000;
 }
 
 body {
     position: relative;
-    background-color: #000000;
 }
 
 /* Canvas arka plan - tam ekran */
 #background-canvas {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
+    display: block;
+    touch-action: none;
+    user-select: none;
 }
 
 /* Ana içerik katmanı */
 main {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     z-index: 2;
     display: flex;
     align-items: center;
@@ -44,19 +45,18 @@ main {
     pointer-events: none;
 }
 
-/* Merkez yazı - güçlü, modern ve ciddi */
+/* Merkez yazı */
 #main-text {
-    color: #ffffff;
+    color: #fff;
     font-size: clamp(2rem, 8vw, 5.5rem);
     font-weight: 900;
     text-align: center;
     line-height: 1.1;
     letter-spacing: -0.03em;
     max-width: 90%;
-    /* Efekt yok - sadece beyaz yazı, net ve güçlü */
 }
 
-/* Sol alt köşe - sade ve minimal */
+/* Sol alt köşe */
 footer {
     position: fixed;
     bottom: 2rem;
@@ -73,8 +73,6 @@ footer a {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: none;
-    /* Hover efekti, animasyon veya renk değişimi yok */
 }
 
 footer a svg {
@@ -82,29 +80,30 @@ footer a svg {
     height: 20px;
 }
 
-/* Mobil responsive */
+/* Tablet */
 @media (max-width: 768px) {
     #main-text {
         font-size: clamp(1.5rem, 10vw, 3.5rem);
     }
-    
+
     footer {
         bottom: 1.5rem;
         left: 1.5rem;
         gap: 0.75rem;
     }
-    
+
     footer a svg {
         width: 18px;
         height: 18px;
     }
 }
 
+/* Mobil */
 @media (max-width: 480px) {
     #main-text {
         font-size: clamp(1.25rem, 12vw, 2.8rem);
     }
-    
+
     footer {
         bottom: 1rem;
         left: 1rem;
