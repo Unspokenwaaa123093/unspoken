@@ -276,7 +276,7 @@
   </div>
 </div>
 
-<video id="vid" playsinline loop preload="auto"></video> 
+<video id="vid" playsinline preload="metadata" style="background-color: black;"></video> 
 <div id="veil"></div>
 
 <button id="volbtn" onclick="toggleMute()">
@@ -348,8 +348,9 @@
         <p class="tg-section-label">Dead</p>
         <a class="tg-item account" href="https://t.me/illahmis" target="_blank" rel="noopener">@illahmis</a>
         <div class="tg-divider"></div>
+        <p class="tg-section-label">Babacan Adamlar</p>
+        <a class="tg-item" href="https://t.me/atatv44l" target="_blank" rel="noopener">@Atatv44l</a>
         <p class="tg-section-label">Url</p>
-        <a class="tg-item" href="https://t.me/atatv44k" target="_blank" rel="noopener">@Atatv44k</a>
         <a class="tg-item" href="https://t.me/illahiyet" target="_blank" rel="noopener">@illahiyet</a>
         <a class="tg-item" href="https://t.me/illahinizim" target="_blank" rel="noopener">@illahinizim</a>
         <a class="tg-item" href="https://t.me/metaAdsManager" target="_blank" rel="noopener">@metaAdsManager</a>
@@ -396,17 +397,29 @@
   vid.src = getSmartVideo();
 
   function go() {
-    document.getElementById('entry').classList.add('gone');
-    document.getElementById('veil').classList.add('on');
+    const entry = document.getElementById('entry');
+    const veil = document.getElementById('veil');
+    
     vid.muted = false;
     vid.volume = 0.7;
-    vid.play().catch(() => { 
-      vid.muted = true; 
-      vid.play(); 
-    });
-    vid.classList.add('on');
-    socials.classList.add('on');
-    volBtn.classList.add('on');
+
+    const playPromise = vid.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        entry.classList.add('gone');
+        veil.classList.add('on');
+        vid.classList.add('on');
+        document.getElementById('socials').classList.add('on');
+      }).catch(error => {
+        vid.muted = true;
+        vid.play();
+        entry.classList.add('gone');
+        veil.classList.add('on');
+        vid.classList.add('on');
+        document.getElementById('socials').classList.add('on');
+      });
+    }
   }
 
   function toggleMute() {
