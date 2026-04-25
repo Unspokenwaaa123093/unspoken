@@ -86,7 +86,7 @@
         AMASYA / MERKEZ <br>
         <a href="https://shortlink.uk/1tGNm" target="_blank" rel="noopener" style="text-decoration: underline;">EV KOORDİNATLARI</a>
         
-        <a href="/" class="back-btn">ANA SAYFAYA DÖN</a>
+        <a href="javascript:void(0)" onclick="backToHome()" class="back-btn">ANA SAYFAYA DÖN</a>
     </div>
 
     <video id="bgVideo" playsinline loop></video>
@@ -123,6 +123,11 @@
             document.body.appendChild(e);
             setTimeout(() => e.remove(), 4000);
         }
+        
+        function backToHome() {
+    localStorage.setItem('musicTime', video.currentTime);
+    window.location.href = "index.html";
+}
     </script>
 </body>
 </html>
