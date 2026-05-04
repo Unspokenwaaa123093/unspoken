@@ -1,106 +1,81 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Syne&display=swap" rel="stylesheet">
-  <style>
-    
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bu İnternet Adresi Erişime Kapatılmıştır</title>
+<style>
+  @font-face { font-family:"Nexa"; src:url("./Nexa-ExtraLight.ttf") format("truetype"); }
+  @font-face { font-family:"Nexa"; src:url("./Nexa-Heavy.ttf") format("truetype"); font-weight:bold; }
 
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100vh;
-      background: #000;
-      color: #f5f0e8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      overflow: hidden;
-    }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:100%;height:100%;}
+  body{
+    background-image:url("./Background.jpg");
+    background-size:cover;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Nexa"; color:#fff;
+  }
 
-    .noise {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Static_Noise_Graphic.png');
-      opacity: 0.04;
-      pointer-events: none;
-      z-index: 1;
-    }
+  main{ width:1200px; max-width:100%; padding:2vw; }
+  main>h1{
+    text-align:center;
+    margin-bottom:clamp(16px,1.8vw,28px);
+    font-size:clamp(22px,1.9vw,34px);
+  }
+  main>p{
+    text-align:justify;
+    font-size:clamp(15px,1.35vw,23px);
+    line-height:1.55;
+  }
+  main>p:nth-child(2){ margin-bottom:clamp(16px,1.8vw,28px); }
 
-    .container {
-      text-align: center;
-      z-index: 10;
-      padding: 20px;
-      width: 100%;
-    }
+  .logos{
+    display:flex; flex-wrap:nowrap;
+    justify-content:space-between; align-items:center;
+    margin-top:clamp(24px,6vw,64px);
+    gap:0;
+  }
+  .logos>img{ height:auto; display:block; object-fit:contain; }
 
-    h1 {
-      font-size: clamp(5rem, 20vw, 12rem);
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      margin: 0;
-      line-height: 1;
-      opacity: 0.9;
-      animation: glitch 5s infinite alternate;
-    }
+  .logo-mit   { width:180px; height:auto; }
+  .logo-jgk   { width:160px; height:auto; }
+  .logo-usom  { width:240px; height:auto; }
+  .logo-masak { width:140px; height:auto; }
 
-    p {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(0.7rem, 2.5vw, 0.9rem);
-      text-transform: uppercase;
-      letter-spacing: 0.5em;
-      color: rgba(245, 240, 232, 0.6);
-      margin: 10px 0 50px 0;
-    }
+  @media (max-width: 640px){
+    main{ padding: 6vw; }
+    main>h1{ font-size: clamp(20px,6vw,30px); margin-bottom: 5vw; }
+    main>p{ font-size: clamp(14px,3.4vw,20px); line-height: 1.6; }
+    main>p:nth-child(2){ margin-bottom: 5vw; }
 
-    .home-link {
-      display: inline-block;
-      text-decoration: none;
-      color: #e8d5b0;
-      border: 1px solid rgba(232, 213, 176, 0.4);
-      padding: 18px 45px;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-      background: transparent;
-      cursor: pointer;
-    }
+    .logos{ margin-top: 6vw; gap: 4vw; justify-content: space-between; }
+    .logo-mit   { max-height: 65px; width:auto; }
+    .logo-jgk   { max-height: 57px; width:auto; }
+    .logo-usom  { max-height: 57px; width:auto; }
+    .logo-masak { max-height: 55px; width:auto; }
+  }
 
-    .home-link:hover {
-      background: #f5f0e8;
-      color: #000;
-      border-color: #f5f0e8;
-      box-shadow: 0 10px 40px rgba(245, 240, 232, 0.1);
-      transform: translateY(-2px);
-    }
-
-    @keyframes glitch {
-      0%, 90%, 100% { transform: skew(0deg); text-shadow: none; }
-      91% { transform: skew(2deg); text-shadow: 3px 0 #ff0000; }
-      93% { transform: skew(-2deg); text-shadow: -3px 0 #00ffff; }
-      95% { transform: skew(1deg); text-shadow: 1px 0 #ff0000; }
-    }
-  </style>
+  @media (min-width: 2000px){
+    main{ max-width: 1600px; }
+    .logos{ gap:0; }
+  }
+</style>
 </head>
 <body>
+  <main>
+    <h1>BU İNTERNET ADRESİ ERİŞİME KAPATILMIŞTIR</h1>
 
-  <div class="noise"></div>
+    <p>Bu internet adresi, Türkiye Cumhuriyeti'nin ulusal güvenliğine yönelik yasa dışı siber faaliyetlerde bulunması nedeniyle Milli İstihbarat Teşkilatı (MİT), Jandarma Genel Komutanlığı (JGK), Ulusal Siber Olaylara Müdahale Merkezi (USOM) ve Mali Suçları Araştırma Kurulu (MASAK) tarafından yürütülen koordineli operasyonlar neticesinde ele geçirilmiş ve erişime kapatılmıştır.</p>
 
-  <div class="container">
-    <h1>404</h1>
-    <p>Elini sikeyim</p>
-    <a href="/" class="home-link">huzuruma çık</a>
-  </div>
+    <p>Yasa dışı faaliyetlerde bulunan siber teröristlere karşı önleyici ve caydırıcı tedbirler kararlılıkla sürdürülecektir.</p>
 
+    <section class="logos">
+      <img class="logo-mit"   src="./MİT.png"   alt="Milli İstihbarat Teşkilatı">
+      <img class="logo-jgk"   src="./JGK.png"   alt="Jandarma Genel Komutanlığı">
+      <img class="logo-usom"  src="./USOM.png"  alt="Ulusal Siber Olaylara Müdahale Merkezi">
+      <img class="logo-masak" src="./MASAK.png" alt="Mali Suçları Araştırma Kurulu">
+    </section>
+  </main>
 </body>
 </html>
