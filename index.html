@@ -321,16 +321,16 @@
     <span class="entry-sub">click to enter</span>
   </div>
 </div>
-<video id="bgVideo" autoplay muted loop playsinline src="video1.mp4"></video>
+<video id="vid" autoplay muted loop playsinline></video>
 <div id="veil"></div>
-
+  
 <button id="volbtn" onclick="toggleMute()">
-  <svg id="ico-on" viewBox="0 0 24 24">
+  <svg id="ico-on" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
     <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
   </svg>
-  <svg id="ico-off" viewBox="0 0 24 24" style="display:none">
+  <svg id="ico-off" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6" style="display:none">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
     <line x1="23" y1="9" x2="17" y2="15"/>
     <line x1="17" y1="9" x2="23" y2="15"/>
@@ -351,29 +351,37 @@
     <p>
     2018'den beri sanal dünyanın arka sokaklarındayım. Yazılımı bir hobi olarak değil, sistemlerin nasıl çalıştığını anlamak için bir araç olarak görüyorum. <b>"Sıradan" bir geliştirici değilim;</b> işin güvenlik ve otomasyon kısmıyla ilgileniyorum.
   </p>
-    <div class="section-title">// focused_Shit</div>
+   <div class="section-title">// focused_Shit</div>
   <p>Full-Stack (Backend focus), Automation & Bots, Security & RAT, Reverse Engineering.</p>
+    
     <div class="social" style="font-size: 0.65rem; color: var(--sub); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
       İnstagram: <a href="https://instagram.com/dxl3s" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">@dxl3s</a> / 
       Tiktok: <a href="https://www.tiktok.com/@dxlesofficial" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">@dxlesofficial</a>
     </div>
     <div class="close-btn" onclick="closeAbout()">Geri Dön</div>
-  </div>
-    <div class="section-title">// term_</div>
-  <div id="terminal">
-    <div id="terminal-output">Type 'help' for commands.</div>
-    <div class="terminal-input-line">
-      <span class="terminal-prompt">></span>
-      <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
     </div>
   </div>
-<div id="socials">
+
+  <div id="socials">
+    
+  <div class="section-title">// term_</div>
+    <div id="terminal">
+      <div id="terminal-output">Type 'help' for commands.</div>
+      <div class="terminal-input-line">
+        <span class="terminal-prompt">></span>
+        <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+  
+<div id="socials-menu"></div>
   <a class="s-btn" href="javascript:void(0)" onclick="openAbout()">
     <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5">
       <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
     </svg>
     About
   </a>
+  </div>
 
 <div class="sep"></div>
   
