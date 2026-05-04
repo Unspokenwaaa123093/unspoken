@@ -31,6 +31,17 @@
       --sub: rgba(245,240,232,0.55);
     }
 
+.cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle 400px at var(--x) var(--y), rgba(232, 213, 176, 0.05), transparent 80%);
+    z-index: -1;
+    pointer-events: none;
+}
+
 .ascii-logo {
   font-family: monospace;
   font-size: 8px; 
@@ -455,6 +466,15 @@ vid.addEventListener('canplaythrough', () => {
     };
 });
 
+window.addEventListener('mousemove', e => {
+    document.body.style.setProperty('--x', e.clientX + 'px');
+    document.body.style.setProperty('--y', e.clientY + 'px');
+});
+
+const glow = document.createElement('div');
+glow.className = 'cursor-glow';
+document.body.appendChild(glow);
+  
   function go() {
     const entry = document.getElementById('entry');
     const veil = document.getElementById('veil');
