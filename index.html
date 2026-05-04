@@ -292,8 +292,7 @@
     <span class="entry-sub">click to enter</span>
   </div>
 </div>
-
-<video id="vid" playsinline preload="metadata" style="background-color: black;"></video> 
+<video id="vid" playsinline preload="auto" style="background-color: black;"></video>
 <div id="veil"></div>
 
 <button id="volbtn" onclick="toggleMute()">
@@ -417,20 +416,26 @@
 
   vid.src = getSmartVideo();
 
+vid.addEventListener('canplaythrough', () => {
+    console.log("Video akıcı oynatım için hazır.");
+}, { once: true });
+
   vid.addEventListener('ended', () => {
-    // Yeni bir video seç
     const nextVid = getSmartVideo();
-    
-    vid.style.opacity = '0';
-    
-    setTimeout(() => {
-      vid.src = nextVid;
-      vid.load();
-      vid.play().then(() => {
-        vid.style.opacity = '1';
-      }).catch(err => console.log("Oynatma hatası:", err));
-    }, 500);
-  });
+
+    const tempVid = document.createElement('video');
+    tempVid.src = nextVid;
+    tempVid.preload = 'auto';
+
+    tempVid.oncanplaythrough = () => {
+        vid.style.opacity = '0';
+        setTimeout(() => {
+            vid.src = nextVid;
+            vid.play();
+            vid.style.opacity = '1';
+        }, 500);
+    };
+});
 
   function go() {
     const entry = document.getElementById('entry');
