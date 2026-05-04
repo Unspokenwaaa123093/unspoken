@@ -31,6 +31,23 @@
       --sub: rgba(245,240,232,0.55);
     }
 
+    .ascii-logo {
+  font-family: monospace;
+  font-size: 8px;
+  line-height: 1.1; 
+  color: var(--accent);
+  margin-bottom: 15px;
+  white-space: pre;
+  display: block;
+  overflow-x: auto; 
+}
+
+@media (max-width: 480px) {
+  .ascii-logo {
+    font-size: 5px;
+  }
+}
+
     html, body {
   background-color: #000 !important;
   margin: 0;
@@ -294,7 +311,14 @@
 
 <div id="aboutOverlay">
   <div class="about-card">
-    <h1>Dxles</h1>
+    <pre class="ascii-logo">
+██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
+██╔══██╗╚██╗██╔╝██║     ╚════██╗██╔════╝
+██║  ██║ ╚███╔╝ ██║      █████╔╝███████╗
+██║  ██║ ██╔██╗ ██║      ╚═══██╗╚════██║
+██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
+╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝
+</pre>
     <div class="status">code // security // chaos</div>
     <p>
       2018'den beri sanal dünyanın arka sokaklarındayım. Yazılımı bir hobi olarak değil, sistemlerin nasıl çalıştığını anlamak için bir araç olarak görüyorum. <b>"Sıradan" bir geliştirici değilim;</b> işin güvenlik ve otomasyon kısmıyla, yani biraz daha "karanlık" taraflarıyla ilgileniyorum.
@@ -465,6 +489,14 @@
   gtag('js', new Date());
 
   gtag('config', 'G-E3HJQWMVDP');
+
+console.log("%c[SYSTEM] %c██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
+██╔══██╗╚██╗██╔╝██║     ╚════██╗██╔════╝
+██║  ██║ ╚███╔╝ ██║      █████╔╝███████╗
+██║  ██║ ██╔██╗ ██║      ╚═══██╗╚════██║
+██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
+╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝.", "color: #e8d5b0; font-weight: bold;", "color: #f5f0e8;");
+console.log("%c[INFO] %cİyi şanslar... ;)", "color: rgba(245,240,232,0.55);", "color: rgba(245,240,232,0.55);");
   
 </script>
 </body>
