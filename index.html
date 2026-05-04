@@ -536,25 +536,31 @@ terminalInput.addEventListener('keydown', function(e) {
     terminalOutput.appendChild(userLine);
     
     const response = document.createElement('div');
-    response.style.marginBottom = "5px";
+    response.style.marginBottom = "10px";
+    response.style.lineHeight = "1.2";
 
     switch(command) {
       case 'help':
         response.textContent = "Available: help, clear, contact, focus, status";
         break;
       case 'contact':
-        response.textContent = "Instagram: @dxl3s | Telegram: @illahiyet";
+        response.innerHTML = "Instagram: <span style='color:var(--accent)'>@dxl3s</span><br>Telegram: <span style='color:var(--accent)'>@illahiyet</span>";
         break;
       case 'focus':
         response.textContent = "Backend, Automation, Security, Reverse Engineering.";
         break;
       case 'status':
-        response.textContent = "██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
+        response.style.whiteSpace = "pre";
+        response.style.fontSize = "10px";
+        response.style.color = "var(--accent)";
+        response.textContent = `
+██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
 ██╔══██╗╚██╗██╔╝██║     ╚════██╗██╔════╝
 ██║  ██║ ╚███╔╝ ██║      █████╔╝███████╗
 ██║  ██║ ██╔██╗ ██║      ╚═══██╗╚════██║
 ██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
-╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝";
+╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝
+`;
         break;
       case 'clear':
         terminalOutput.innerHTML = "Type 'help' for commands.";
@@ -568,7 +574,6 @@ terminalInput.addEventListener('keydown', function(e) {
 
     terminalOutput.appendChild(response);
     this.value = '';
-    
     const termDiv = document.getElementById('terminal');
     termDiv.scrollTop = termDiv.scrollHeight;
   }
