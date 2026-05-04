@@ -31,21 +31,39 @@
       --sub: rgba(245,240,232,0.55);
     }
 
-    .ascii-logo {
+.ascii-logo {
   font-family: monospace;
-  font-size: 8px;
-  line-height: 1.1; 
+  font-size: 8px; 
+  line-height: 1.1;
   color: var(--accent);
-  margin-bottom: 15px;
   white-space: pre;
-  display: block;
-  overflow-x: auto; 
+  margin-bottom: 10px;
+  overflow-x: hidden;
 }
 
+#terminal {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(232, 213, 176, 0.2);
+  padding: 10px;
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: #00ff41;
+  margin-top: 10px;
+  max-height: 120px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.terminal-input-line { display: flex; align-items: center; margin-top: 5px; }
+#terminal-input {
+  background: transparent; border: none; color: #00ff41;
+  font-family: monospace; outline: none; flex-grow: 1; margin-left: 5px;
+}
+.terminal-prompt { color: var(--accent); }
+
 @media (max-width: 480px) {
-  .ascii-logo {
-    font-size: 5px;
-  }
+  .ascii-logo { font-size: 5px; }
+  .about-card { padding: 1.2rem; }
 }
 
     html, body {
@@ -320,17 +338,22 @@
 </pre>
     <div class="status">code // security // chaos</div>
     <p>
-      2018'den beri sanal dünyanın arka sokaklarındayım. Yazılımı bir hobi olarak değil, sistemlerin nasıl çalıştığını anlamak için bir araç olarak görüyorum. <b>"Sıradan" bir geliştirici değilim;</b> işin güvenlik ve otomasyon kısmıyla, yani biraz daha "karanlık" taraflarıyla ilgileniyorum.
-    </p>
+    2018'den beri sanal dünyanın arka sokaklarındayım. Yazılımı bir hobi olarak değil, sistemlerin nasıl çalıştığını anlamak için bir araç olarak görüyorum. <b>"Sıradan" bir geliştirici değilim;</b> işin güvenlik ve otomasyon kısmıyla ilgileniyorum.
+  </p>
     <div class="section-title">// focus_areas</div>
-    <p>Full-Stack (Backend focus), Automation & Bots, Security & RAT, Reverse Engineering.</p>
-    <div class="quote">"Code is cheap. Show me the exploit."</div>
-    <div class="tags">
-  <a href="/tag/python">#Python</a>
-  <a href="/tag/go">#Go</a>
-  <a href="/tag/nodejs">#NodeJS</a>
-  <a href="/tag/security">#Security</a>
+  <p>Full-Stack (Backend focus), Automation & Bots, Security & RAT, Reverse Engineering.</p>
+    <div class="section-title">// system_terminal</div>
+  <div id="terminal">
+    <div id="terminal-output">Type 'help' for commands.</div>
+    <div class="terminal-input-line">
+      <span class="terminal-prompt">></span>
+      <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
+    </div>
+  </div>
+
+  <div class="close-btn" onclick="closeAbout()">Geri Dön</div>
 </div>
+  
    <div class="social" style="font-size: 0.65rem; color: var(--sub); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px;">
   İnstagram: <a href="https://instagram.com/dxl3s" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-weight: 600;">@dxl3s</a> / 
   Tiktok: <a href="https://www.tiktok.com/@dxlesofficial" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-weight: 600;">@dxlesofficial</a>
@@ -502,6 +525,55 @@ console.log("%c[SYSTEM] %c██████╗ ██╗  ██╗██╗   
 ██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
 ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝.", "color: #e8d5b0; font-weight: bold;", "color: #f5f0e8;");
 console.log("%c[INFO] %cİyi şanslar... ;)", "color: rgba(245,240,232,0.55);", "color: rgba(245,240,232,0.55);");
+  const terminalInput = document.getElementById('terminal-input');
+const terminalOutput = document.getElementById('terminal-output');
+
+terminalInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const command = this.value.trim().toLowerCase();
+    
+    const userLine = document.createElement('div');
+    userLine.innerHTML = `<span style="color: var(--accent)">></span> ${command}`;
+    terminalOutput.appendChild(userLine);
+    
+    const response = document.createElement('div');
+    response.style.marginBottom = "5px";
+
+    switch(command) {
+      case 'help':
+        response.textContent = "Available: help, clear, contact, focus, status";
+        break;
+      case 'contact':
+        response.textContent = "Instagram: @dxl3s | Telegram: @illahiyet";
+        break;
+      case 'focus':
+        response.textContent = "Backend, Automation, Security, Reverse Engineering.";
+        break;
+      case 'status':
+        response.textContent = "██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
+██╔══██╗╚██╗██╔╝██║     ╚════██╗██╔════╝
+██║  ██║ ╚███╔╝ ██║      █████╔╝███████╗
+██║  ██║ ██╔██╗ ██║      ╚═══██╗╚════██║
+██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
+╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝";
+        break;
+      case 'clear':
+        terminalOutput.innerHTML = "Type 'help' for commands.";
+        this.value = '';
+        return;
+      case '':
+        break;
+      default:
+        response.textContent = `Command not found: ${command}`;
+    }
+
+    terminalOutput.appendChild(response);
+    this.value = '';
+    
+    const termDiv = document.getElementById('terminal');
+    termDiv.scrollTop = termDiv.scrollHeight;
+  }
+});
   
 </script>
 </body>
