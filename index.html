@@ -31,52 +31,6 @@
       --sub: rgba(245,240,232,0.55);
     }
 
-.cursor-glow {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle 400px at var(--x) var(--y), rgba(232, 213, 176, 0.05), transparent 80%);
-    z-index: -1;
-    pointer-events: none;
-}
-
-.ascii-logo {
-  font-family: monospace;
-  font-size: 8px; 
-  line-height: 1.1;
-  color: var(--accent);
-  white-space: pre;
-  margin-bottom: 10px;
-  overflow-x: hidden;
-}
-
-#terminal {
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(232, 213, 176, 0.2);
-  padding: 10px;
-  font-family: monospace;
-  font-size: 0.7rem;
-  color: #00ff41;
-  margin-top: 10px;
-  max-height: 120px;
-  overflow-y: auto;
-  text-align: left;
-}
-
-.terminal-input-line { display: flex; align-items: center; margin-top: 5px; }
-#terminal-input {
-  background: transparent; border: none; color: #00ff41;
-  font-family: monospace; outline: none; flex-grow: 1; margin-left: 5px;
-}
-.terminal-prompt { color: var(--accent); }
-
-@media (max-width: 480px) {
-  .ascii-logo { font-size: 5px; }
-  .about-card { padding: 1.2rem; }
-}
-
     html, body {
   background-color: #000 !important;
   margin: 0;
@@ -278,6 +232,7 @@
       backdrop-filter: blur(12px);
       display: none; align-items: center; justify-content: center;
       padding: 20px;
+      overflow-y: auto;
     }
     #aboutOverlay.active { display: flex; animation: fadeIn 0.4s ease forwards; }
 
@@ -298,15 +253,36 @@
     .about-card .close-btn { margin-top: 2rem; cursor: pointer; display: inline-block; padding: 0.6rem 1.2rem; border: 1px solid rgba(255,255,255,0.1); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text); background: rgba(255,255,255,0.03); transition: 0.3s; }
     .about-card .close-btn:hover { background: var(--text); color: #000; }
 
+    #terminal {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(232, 213, 176, 0.2);
+      padding: 10px;
+      font-family: monospace;
+      font-size: 0.7rem;
+      color: #00ff41;
+      margin-top: 10px;
+      max-height: 120px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .terminal-input-line { display: flex; align-items: center; margin-top: 5px; }
+    #terminal-input {
+      background: transparent; border: none; color: #00ff41;
+      font-family: monospace; outline: none; flex-grow: 1; margin-left: 5px;
+    }
+    .terminal-prompt { color: var(--accent); }
+
     @media (max-width: 480px) {
       #socials { bottom: 1.3rem; gap: 0.45rem; }
       .s-btn { padding: 0.5rem 0.9rem; font-size: 0.54rem; letter-spacing: 0.28em; }
       .tg-menu { width: 210px; }
+      .about-card { padding: 1.2rem; }
     }
   </style>
 </head>
 <body>
-  
+
   <section style="position:absolute; bottom:0; left:0; opacity:0.05; font-size:10px;">
   <h1>Dxles kimdir?</h1>
   <p>
@@ -321,16 +297,17 @@
     <span class="entry-sub">click to enter</span>
   </div>
 </div>
-<video id="vid" autoplay muted loop playsinline></video>
+
+<video id="vid" playsinline preload="metadata" style="background-color: black;"></video> 
 <div id="veil"></div>
-  
+
 <button id="volbtn" onclick="toggleMute()">
-  <svg id="ico-on" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6">
+  <svg id="ico-on" viewBox="0 0 24 24">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
     <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
   </svg>
-  <svg id="ico-off" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6" style="display:none">
+  <svg id="ico-off" viewBox="0 0 24 24" style="display:none">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
     <line x1="23" y1="9" x2="17" y2="15"/>
     <line x1="17" y1="9" x2="23" y2="15"/>
@@ -339,32 +316,26 @@
 
 <div id="aboutOverlay">
   <div class="about-card">
-    <pre class="ascii-logo">
-██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
-██╔══██╗╚██╗██╔╝██║     ╚════██╗██╔════╝
-██║  ██║ ╚███╔╝ ██║      █████╔╝███████╗
-██║  ██║ ██╔██╗ ██║      ╚═══██╗╚════██║
-██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
-╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝
-</pre>
+    <h1>Dxles</h1>
     <div class="status">code // security // chaos</div>
     <p>
-    2018'den beri sanal dünyanın arka sokaklarındayım. Yazılımı bir hobi olarak değil, sistemlerin nasıl çalıştığını anlamak için bir araç olarak görüyorum. <b>"Sıradan" bir geliştirici değilim;</b> işin güvenlik ve otomasyon kısmıyla ilgileniyorum.
-  </p>
-   <div class="section-title">// focused_Shit</div>
-  <p>Full-Stack (Backend focus), Automation & Bots, Security & RAT, Reverse Engineering.</p>
-    
-    <div class="social" style="font-size: 0.65rem; color: var(--sub); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
-      İnstagram: <a href="https://instagram.com/dxl3s" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">@dxl3s</a> / 
-      Tiktok: <a href="https://www.tiktok.com/@dxlesofficial" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">@dxlesofficial</a>
-    </div>
-    <div class="close-btn" onclick="closeAbout()">Geri Dön</div>
-    </div>
-  </div>
+      2018'den beri sanal dünyanın arka sokaklarındayım. Yazılımı bir hobi olarak değil, sistemlerin nasıl çalıştığını anlamak için bir araç olarak görüyorum. <b>"Sıradan" bir geliştirici değilim;</b> işin güvenlik ve otomasyon kısmıyla, yani biraz daha "karanlık" taraflarıyla ilgileniyorum.
+    </p>
+    <div class="section-title">// focus_areas</div>
+    <p>Full-Stack (Backend focus), Automation & Bots, Security & RAT, Reverse Engineering.</p>
+    <div class="quote">"Code is cheap. Show me the exploit."</div>
+    <div class="tags">
+  <a href="/tag/python">#Python</a>
+  <a href="/tag/go">#Go</a>
+  <a href="/tag/nodejs">#NodeJS</a>
+  <a href="/tag/security">#Security</a>
+</div>
+   <div class="social" style="font-size: 0.65rem; color: var(--sub); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px;">
+  İnstagram: <a href="https://instagram.com/dxl3s" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-weight: 600;">@dxl3s</a> / 
+  Tiktok: <a href="https://www.tiktok.com/@dxlesofficial" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-weight: 600;">@dxlesofficial</a>
+</div>
 
-  <div id="socials">
-    
-  <div class="section-title">// term_</div>
+    <div class="section-title">// term_</div>
     <div id="terminal">
       <div id="terminal-output">Type 'help' for commands.</div>
       <div class="terminal-input-line">
@@ -372,19 +343,20 @@
         <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
       </div>
     </div>
+
+    <div class="close-btn" onclick="closeAbout()">Geri Dön</div>
   </div>
-  
-<div id="socials-menu"></div>
+</div>
+
+<div id="socials">
   <a class="s-btn" href="javascript:void(0)" onclick="openAbout()">
     <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5">
       <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
     </svg>
     About
   </a>
-  </div>
 
 <div class="sep"></div>
-  
     <a class="s-btn" href="https://instagram.com/dxl3s" target="_blank" rel="noopener">
     <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5">
       <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -426,7 +398,7 @@
 
 <script>
   const VIDEOS = ['simarik.mp4', 'bib.mp4', 'dene.mp4', 'mufasa.mp4','unuttumm.mp4'];
-  
+
   const vid     = document.getElementById('vid');
   const volBtn  = document.getElementById('volbtn');
   const socials = document.getElementById('socials');
@@ -452,41 +424,26 @@
 
   vid.src = getSmartVideo();
 
-vid.addEventListener('canplaythrough', () => {
-    console.log("Video akıcı oynatım için hazır.");
-}, { once: true });
-
   vid.addEventListener('ended', () => {
+    // Yeni bir video seç
     const nextVid = getSmartVideo();
 
-    const tempVid = document.createElement('video');
-    tempVid.src = nextVid;
-    tempVid.preload = 'auto';
+    vid.style.opacity = '0';
 
-    tempVid.oncanplaythrough = () => {
-        vid.style.opacity = '0';
-        setTimeout(() => {
-            vid.src = nextVid;
-            vid.play();
-            vid.style.opacity = '1';
-        }, 500);
-    };
-});
+    setTimeout(() => {
+      vid.src = nextVid;
+      vid.load();
+      vid.play().then(() => {
+        vid.style.opacity = '1';
+      }).catch(err => console.log("Oynatma hatası:", err));
+    }, 500);
+  });
 
-window.addEventListener('mousemove', e => {
-    document.body.style.setProperty('--x', e.clientX + 'px');
-    document.body.style.setProperty('--y', e.clientY + 'px');
-});
-
-const glow = document.createElement('div');
-glow.className = 'cursor-glow';
-document.body.appendChild(glow);
-  
   function go() {
     const entry = document.getElementById('entry');
     const veil = document.getElementById('veil');
     const volBtn = document.getElementById('volbtn');
-    
+
     vid.muted = false;
     vid.volume = 0.7;
 
@@ -528,6 +485,61 @@ document.body.appendChild(glow);
 
   document.addEventListener('click', () => tgWrap.classList.remove('open'));
   document.getElementById('tgMenu').addEventListener('click', e => e.stopPropagation());
+
+  const terminalInput = document.getElementById('terminal-input');
+  const terminalOutput = document.getElementById('terminal-output');
+
+  terminalInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      const command = this.value.trim().toLowerCase();
+      
+      const userLine = document.createElement('div');
+      userLine.innerHTML = `<span style="color: var(--accent)">></span> ${command}`;
+      terminalOutput.appendChild(userLine);
+      
+      const response = document.createElement('div');
+      response.style.marginBottom = "10px";
+      response.style.lineHeight = "1.2";
+
+      switch(command) {
+        case 'help':
+          response.textContent = "Available: help, clear, contact, focus, status";
+          break;
+        case 'contact':
+          response.innerHTML = "Instagram: <span style='color:var(--accent)'>@dxl3s</span><br>Telegram: <span style='color:var(--accent)'>@illahiyet</span>";
+          break;
+        case 'focus':
+          response.textContent = "Backend, Automation, Security, Reverse Engineering.";
+          break;
+        case 'status':
+          response.style.whiteSpace = "pre";
+          response.style.fontSize = "10px";
+          response.style.color = "var(--accent)";
+          response.textContent = `
+██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
+██╔══██╗╚██╗██╔╝██║     ╚════██╗██╔════╝
+██║  ██║ ╚███╔╝ ██║      █████╔╝███████╗
+██║  ██║ ██╔██╗ ██║      ╚═══██╗╚════██║
+██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
+╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝
+`;
+          break;
+        case 'clear':
+          terminalOutput.innerHTML = "Type 'help' for commands.";
+          this.value = '';
+          return;
+        case '':
+          break;
+        default:
+          response.textContent = `Command not found: ${command}`;
+      }
+
+      terminalOutput.appendChild(response);
+      this.value = '';
+      const termDiv = document.getElementById('terminal');
+      termDiv.scrollTop = termDiv.scrollHeight;
+    }
+  });
 </script>
   <script data-goatcounter="https://dxles.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
@@ -539,69 +551,6 @@ document.body.appendChild(glow);
   gtag('js', new Date());
 
   gtag('config', 'G-E3HJQWMVDP');
-
-console.log("%c[SYSTEM] %c██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
-██╔══██╗╚██╗██╔╝██║     ╚════██╗██╔════╝
-██║  ██║ ╚███╔╝ ██║      █████╔╝███████╗
-██║  ██║ ██╔██╗ ██║      ╚═══██╗╚════██║
-██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
-╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝.", "color: #e8d5b0; font-weight: bold;", "color: #f5f0e8;");
-console.log("%c[INFO] %cİyi şanslar... ;)", "color: rgba(245,240,232,0.55);", "color: rgba(245,240,232,0.55);");
-  const terminalInput = document.getElementById('terminal-input');
-const terminalOutput = document.getElementById('terminal-output');
-
-terminalInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    const command = this.value.trim().toLowerCase();
-    
-    const userLine = document.createElement('div');
-    userLine.innerHTML = `<span style="color: var(--accent)">></span> ${command}`;
-    terminalOutput.appendChild(userLine);
-    
-    const response = document.createElement('div');
-    response.style.marginBottom = "10px";
-    response.style.lineHeight = "1.2";
-
-    switch(command) {
-      case 'help':
-        response.textContent = "Available: help, clear, contact, focus, status";
-        break;
-      case 'contact':
-        response.innerHTML = "Instagram: <span style='color:var(--accent)'>@dxl3s</span><br>Telegram: <span style='color:var(--accent)'>@illahiyet</span>";
-        break;
-      case 'focus':
-        response.textContent = "Backend, Automation, Security, Reverse Engineering.";
-        break;
-      case 'status':
-        response.style.whiteSpace = "pre";
-        response.style.fontSize = "10px";
-        response.style.color = "var(--accent)";
-        response.textContent = `
-██████╗ ██╗  ██╗██╗     ██████╗ ███████╗
-██╔══██╗╚██╗██╔╝██║     ╚════██╗██╔════╝
-██║  ██║ ╚███╔╝ ██║      █████╔╝███████╗
-██║  ██║ ██╔██╗ ██║      ╚═══██╗╚════██║
-██████╔╝██╔╝ ██╗███████╗██████╔╝███████║
-╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝
-`;
-        break;
-      case 'clear':
-        terminalOutput.innerHTML = "Type 'help' for commands.";
-        this.value = '';
-        return;
-      case '':
-        break;
-      default:
-        response.textContent = `Command not found: ${command}`;
-    }
-
-    terminalOutput.appendChild(response);
-    this.value = '';
-    const termDiv = document.getElementById('terminal');
-    termDiv.scrollTop = termDiv.scrollHeight;
-  }
-});
-  
 </script>
 </body>
 </html>
